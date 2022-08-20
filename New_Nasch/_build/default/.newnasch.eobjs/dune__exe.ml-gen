@@ -1,0 +1,6 @@
+(** @canonical Dune__exe.Nasch *)
+module Nasch = Dune__exe__Nasch
+
+
+(** @canonical Dune__exe.Newnasch *)
+module Newnasch = Dune__exe__Newnasch

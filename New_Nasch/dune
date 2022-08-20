@@ -1,0 +1,3 @@
+(executable
+    (name newnasch)
+    (libraries curses raylib unix))
