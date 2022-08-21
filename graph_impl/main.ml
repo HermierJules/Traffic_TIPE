@@ -2,10 +2,27 @@ type voiture = {mutable vitesse: int; mutable destination : int; mutable time: i
 type state = Empty | Full of voiture
 type graph = {
 	vtx : state array;
-	edges : (int*int option) list array;
+	edges : int array array;
 }
-
-let next_pos g s = 
+let inf = 99999
+let floyd_warshall g =
+	let n = Array.length g.vtx - 1 in
+	let dist = Array.make_matrix (n+1) (n+1) 0 in
+	for i = 0 to n do
+		for j = 0 to n do
+			dist.(i).(j) <- g.edges.(i).(j)
+		done
+	done;
+	for k = 0 to n do
+		for i = 0 to n do
+			for j = 0 to n do
+				if dist.(i).(k) + dist.(k).(j) 
+					< dist.(i).(j)
+					then dist.(i).(j) <- dist.(i).(k) + dist.(k).(j)
+			done
+		done
+	done;
+	dist
 
 let mvt g = 
 	let next = ref 0 in
