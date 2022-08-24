@@ -1,10 +1,28 @@
-type voiture = {mutable vitesse: int; mutable destination : int; mutable time: int}
+type voiture = {mutable vitesse: int; mutable destination : int; mutable time: int; mutable has_moved: bool}
 type state = Empty | Full of voiture
 type graph = {
 	vtx : state array;
 	edges : int array array;
+	discovered : bool array;
+	processed : bool array;
 }
 let inf = 99999
+let initialize g =
+	for i = 0 to Array.length g.vtx -1 do
+		g.discovered.(i) <- false;
+		g.processed.(i) <- false;
+	done
+
+let test_graph =
+	let n = 50 in
+	let vtx = Array.make n Empty in
+	let edges = Array.make_matrix n n inf in
+	let discovered = Array.make n false in
+	let processed = Array.make n false in 
+	for i = 0 to n-2 do 
+		edges.(i).(i+1) <- 1
+	done; 
+	{vtx = vtx; edges = edges; discovered = discovered; processed = processed}
 let floyd_warshall g =
 	let n = Array.length g.vtx - 1 in
 	let dist = Array.make_matrix (n+1) (n+1) 0 in
@@ -25,29 +43,50 @@ let floyd_warshall g =
 				if dist.(i).(k) + dist.(k).(j) 
 					< dist.(i).(j)
 					then begin dist.(i).(j) <- dist.(i).(k) + dist.(k).(j);
-								next.(i).(j) <- next.(i).(k)
+								next.(i).(j) <- (if next.(i).(k) = Some inf then None else next.(i).(k))
 						end
 			done
 		done
 	done;
-	dist
+	dist,next
 
-let mvt g = 
-	let next = ref 0 in
-	for i = 0 to Array.length g.vtx - 1 do
-		if g.vtx.(i) <> Empty 
-			then begin
-				next:=next_pos g g.vtx.(i);
-				if g.vtx.(!next) <> Empty then 
-					g.gtx.(i) <- (match g.gtx.(i) with
-						|Full v -> Full {vitesse = v.vitesse - 1,
-						destination = v.destination} 
-						|_ -> failwith "erreur mvt")
-					else begin
-						g.gtx.(i) 
-						g.gtx.(i) <- Empty;
-						
-				
+let rec dfs g x f =	(* all f are f g x*)
+	let n = Array.length g.vtx - 1 in  					
+	g.discovered.(x) <- true;
+	if g.vtx.(x) <> Empty then f g x;
+	(*process early*)
+	for y = 0 to n do
+		if g.edges.(x).(y) <> inf && not(g.discovered.(y)) then begin
+			g.discovered.(y) <- true;
+			dfs g y f;
+		end
 	done
+
+let move g = 
+	let rec move_aux g x v count = 
+		if count = 0 then g.vtx.(x) <- Full (v.has_movee <- true; v) else
+		if  x = v.destination then () else	
+		move_aux g (match next.(x).(v.destination) with
+					|None -> failwith "pas de chemin, move"
+					|Some x -> x) v (count-1) 
+	in
+	for i = 0 to Array.length g.vtx - 1 do
+		match g.vtx.(i) with
+		|Empty -> ()
+		|Full v -> if not(v.has_movee) then begin g.vtx.(i) <- Empty; move_aux g i v v.vitesse end
+	done
+
+
+let normalize g x = 
+	let deccelerate g x = () in
+	let random g x = () in
+	match g.vtx.(x) with
+	|Empty -> ()
+	|Full v -> v.has_movee <- false; 
+				v.time <- v.time + 1; 
+				v.vitesse <- v.vitesse + 1;
+				deccelerate g x; 
+				random g x;
+
 
 let _ = ()
