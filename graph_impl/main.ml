@@ -50,6 +50,8 @@ let floyd_warshall g =
 	done;
 	dist,next
 
+let dist,next = floyd_warshall test_graph
+
 let rec dfs g x f =	(* all f are f g x*)
 	let n = Array.length g.vtx - 1 in  					
 	g.discovered.(x) <- true;
@@ -64,7 +66,7 @@ let rec dfs g x f =	(* all f are f g x*)
 
 let move g = 
 	let rec move_aux g x v count = 
-		if count = 0 then g.vtx.(x) <- Full (v.has_movee <- true; v) else
+		if count = 0 then g.vtx.(x) <- Full (v.has_moved <- true; v) else
 		if  x = v.destination then () else	
 		move_aux g (match next.(x).(v.destination) with
 					|None -> failwith "pas de chemin, move"
@@ -73,20 +75,28 @@ let move g =
 	for i = 0 to Array.length g.vtx - 1 do
 		match g.vtx.(i) with
 		|Empty -> ()
-		|Full v -> if not(v.has_movee) then begin g.vtx.(i) <- Empty; move_aux g i v v.vitesse end
+		|Full v -> if not(v.has_moved) then begin g.vtx.(i) <- Empty; move_aux g i v v.vitesse end
 	done
 
 
 let normalize g x = 
-	let deccelerate g x = () in
+	let deccelerate g x v= 
+		let rec deccelerate_aux g x dest (count:int) =
+			if x = dest || count = 0 then 0 else
+			match g.vtx.(x) with
+			|Empty -> deccelerate_aux g x dest (count-1)(*deccelerate_aux g next.(x).(dest) dest (count-1)*)
+			|Full v -> count
+		in
+		v.vitesse <- deccelerate_aux g x v.destination v.vitesse
+	 in
 	let random g x = () in
 	match g.vtx.(x) with
 	|Empty -> ()
-	|Full v -> v.has_movee <- false; 
+	|Full v -> v.has_moved <- false; 
 				v.time <- v.time + 1; 
 				v.vitesse <- v.vitesse + 1;
-				deccelerate g x; 
+				deccelerate g x v; 
 				random g x;
 
 
-let _ = ()
+
