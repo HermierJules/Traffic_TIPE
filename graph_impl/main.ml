@@ -84,19 +84,30 @@ let normalize g x =
 		let rec deccelerate_aux g x dest (count:int) =
 			if x = dest || count = 0 then 0 else
 			match g.vtx.(x) with
-			|Empty -> deccelerate_aux g x dest (count-1)(*deccelerate_aux g next.(x).(dest) dest (count-1)*)
+			|Empty -> deccelerate_aux g (match next.(x).(dest) with |None -> failwith "deccelerate" |Some x -> x) dest (count-1)(*deccelerate_aux g next.(x).(dest) dest (count-1)*)
 			|Full v -> count
 		in
-		v.vitesse <- deccelerate_aux g x v.destination v.vitesse
+		v.vitesse <- v.vitesse - (deccelerate_aux g (match next.(x).(v.destination) with |Some x -> x |_ -> failwith "deccelerate") v.destination v.vitesse)
 	 in
-	let random g x = () in
+	let random g x dest =  
+		let n = (match next.(x).(dest) with
+				|None -> failwith "random"
+				|Some x -> x ) in
+		let r = g.edges.(x).(n) in
+		if Random.int 10 > r then 
+		match g.vtx.(x) with
+			|Empty -> ()
+			|Full v -> if v.vitesse = 0 then () else v.vitesse <- v.vitesse - 1 
+		else 
+		()
+	in
 	match g.vtx.(x) with
 	|Empty -> ()
 	|Full v -> v.has_moved <- false; 
 				v.time <- v.time + 1; 
 				v.vitesse <- v.vitesse + 1;
 				deccelerate g x v; 
-				random g x;
+				random g x v.destination;
 
 
 
