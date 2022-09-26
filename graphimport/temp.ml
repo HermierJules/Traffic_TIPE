@@ -1,7 +1,34 @@
+type voiture = {mutable vitesse: int; mutable destination : int; mutable time: int; mutable has_moved: bool}
+type state = Empty | Full of voiture
+type graph = {
+	vtx: state array; 
+	edges : int list array;
+	discovered : bool array;
+	processed : bool array;
+}
+
 type graph_list = {
 	mutable vtx : int list;
 	mutable edges : (int * int) list;
 }
+let rec max l c =
+match l with 
+|[] -> c
+|(t,b)::q -> if t > c then max q t else max q c 
+
+let normalize g = 
+	let rec edges_list_to_array t l =
+		match l with
+		|[] -> t 
+		|(x,y)::q -> t.(x) <- y::t.(x); edges_list_to_array t q 
+	in	
+	let n = List.length g.vtx + 1 in
+	let discovered = Array.make n false in
+	let processed = Array.make n false in 
+	let vtx = Array.make n Empty in
+	let edges = edges_list_to_array (Array.make n [])
+									 g.edges in
+	{vtx = vtx; edges = edges; discovered = discovered; processed = processed}
 
 let graph_import_node file_node file_edges= 
 	let vtx = ref [] in
