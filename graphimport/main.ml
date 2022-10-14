@@ -26,7 +26,7 @@ let graph_import_node file_node file_edges=
 	for i =Array.length  nodes -1  to 1  do
 		Hashtbl.add og_id  nodes.(i).(0) (i-1) ;
 		vtx:= int_of_string(nodes.(i).(0))::vtx;
-		node_nb:= !node_nb + 1; 
+        node_nb:= !node_nb + 1;
 	done;
 	for i = 1 to Array.length edges do
 		ed_temp:= [];
@@ -65,7 +65,7 @@ let graph_import_node file_node file_edges=
 	done;
 	{vtx = !vtx; edges = !ed_temp}
 		
-
+(*
 let normalize_edge (g: graph_list) (id: int) (target: int) (length: float) (back: bool) = 
 	let n = (int_of_float length)/5 in
 	let rec create_edges n l = 
@@ -74,5 +74,5 @@ let normalize_edge (g: graph_list) (id: int) (target: int) (length: float) (back
 		|[] -> failwith ""
 		|t::q  -> create_edges (n-1) q
 	let l = List.init n 
- 
+ *) 
 let _ = ()

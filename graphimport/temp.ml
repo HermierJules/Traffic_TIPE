@@ -15,12 +15,12 @@ let rec max l c =
 match l with 
 |[] -> c
 |(t,b)::q -> if t > c then max q t else max q c 
-
+(*
 let normalize g = 
 	let rec edges_list_to_array t l =
 		match l with
 		|[] -> t 
-		|(x,y)::q -> t.(x) <- y::t.(x); edges_list_to_array t q 
+		|(x,y)::q -> if x <> (-1) && y <> (-1) then t.(x) <- y::t.(x); edges_list_to_array t q 
 	in	
 	let n = List.length g.vtx + 1 in
 	let discovered = Array.make n false in
@@ -47,7 +47,6 @@ let graph_import_node file_node file_edges=
 		node_nb:= !node_nb + 1; 
 	done;
 	for i = 1 to Array.length edges-1 do
-		ed_temp:= [];
 		x:= (match Hashtbl.find_opt og_id edges.(i).(1)  with
 			 |Some x -> x
 			 |None -> (-1));
@@ -59,7 +58,7 @@ let graph_import_node file_node file_edges=
 			vtx:= !node_nb::!vtx;
 			if !l <> 1 
 				then if j <> 1 then ed_temp:= (!node_nb, !node_nb + 1):: !ed_temp
-							   else ed_temp:= (!x, !node_nb + 1):: !ed_temp
+							   else ed_temp:= (!x, !node_nb):: !ed_temp
 				else if j <> 1 then ed_temp:= (!node_nb, !y) :: !ed_temp
 							   else ed_temp:= (!x, !y)::!ed_temp;
 				node_nb:=!node_nb + 1;
@@ -82,6 +81,88 @@ let graph_import_node file_node file_edges=
 
 	done;
 	{vtx = !vtx; edges = !ed_temp}
-		
+    
+let g = normalize (graph_import_node "nodes.csv" "edges.csv")	
+*)
 
+
+let nodes = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "nodes.csv")))
+let edges = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "edges.csv"))) 
+
+
+(*IMPROVEMENTS : handle the multiple lanes when car_forward > 1*)
+let graph_import_ugly file_node file_edges= 
+	let vtx = ref [] in
+    let edges_list = ref [] in
+	let nodes = Csv.to_array (Csv.input_all(Csv.of_channel (open_in file_node))) in
+	let edges = Csv.to_array (Csv.input_all(Csv.of_channel (open_in file_edges))) in
+	(*building the nodes list*)
+	for i = 1 to Array.length  nodes -1 do
+		vtx:= int_of_string(nodes.(i).(0))::!vtx; 
+	done;
+    (*building the edges list*)
+    for i = 1 to Array.length edges - 1 do
+        if int_of_string(edges.(i).(5)) <> 0 then 
+            edges_list:= ((int_of_string(edges.(i).(1)), int_of_string(edges.(i).(2))),int_of_float(float_of_string(edges.(i).(3)))/5 + 1)::!edges_list;
+        if int_of_string(edges.(i).(6)) <> 0 then
+            edges_list:= ((int_of_string(edges.(i).(2)),int_of_string(edges.(i).(1))), int_of_float(float_of_string(edges.(i).(3)))/5 + 1) ::!edges_list;
+    done;
+    (!vtx,!edges_list)
+
+let normalize_nodes vtx edges =
+    let cache = Hashtbl.create 2048 in
+    let rec cache_vtx l cache count = 
+        match l with
+        |[] -> ()
+        |t::q -> Hashtbl.add cache t count; cache_vtx q cache (count+1)
+    in
+    let rec n_vtx l new_l cache =
+        match l with
+        |[] -> ()
+        |t::q -> let x = Hashtbl.find cache t in new_l:= x::!new_l; n_vtx q new_l cache
+    in 
+    let rec n_edges l new_l cache = 
+        match l with
+        |[] -> ()
+        |((x,y),t)::q -> let nx, ny = Hashtbl.find cache x, Hashtbl.find cache y in 
+                     new_l:=((nx,ny),t)::!new_l;
+                    n_edges q new_l cache
+    in
+    cache_vtx vtx cache 0;
+    let ne = ref [] in
+    let nv = ref [] in
+    n_edges edges ne cache; 
+    n_vtx vtx nv cache;
+    (nv, ne)
+
+
+let extend_edge nodes edge =
+    let ((x,y),l) = edge in
+    let n = ref (List.length !nodes) in
+    let maillons = ref [] in
+    if l = 1 then [(x,y)]
+    else begin
+        maillons:=(x,!n)::!maillons;
+        nodes:=!n::!nodes;
+        n:=!n+1;
+        for i = 1 to l do
+            maillons:=(!n-1,!n)::!maillons;
+            nodes:=!n::!nodes;
+            n:=!n + 1;
+        done;
+        maillons:=(!n,y)::!maillons;
+        !maillons end
+
+            
+let graph_import file_nodes file_edges = 
+    let ugly_vtx, ugly_edges = graph_import_ugly file_nodes files_edges in 
+    let vtx, edges = normalize_nodes ugly_vtx ugly_edges in
+    let rec finalize_edges vtx edges final_edges =
+        match edges with
+        |[] -> ()
+        |t::q -> final_edges:= extend_edge vtx t @ !final_edges; 
+                finalize_edges vtx q final_edges
+    in
+    let final_edges = ref [] in
+    finalize_edges vtx !edges final_edges
 
