@@ -1,3 +1,9 @@
 (executable
-	(name main)
+	(name temp)
 	(libraries unix csv))
+(env
+  (dev
+    (flags(:standard -warn-error -A)
+      )
+    )
+  )

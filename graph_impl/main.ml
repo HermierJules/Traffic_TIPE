@@ -23,13 +23,14 @@ let test_graph =
 		edges.(i).(i+1) <- 1
 	done; 
 	{vtx = vtx; edges = edges; discovered = discovered; processed = processed}
-let floyd_warshall g =
+let floyd_warshall (g: graph) =
+    let inf = 99999 in
 	let n = Array.length g.vtx - 1 in
 	let dist = Array.make_matrix (n+1) (n+1) 0 in
 	let next = Array.make_matrix (n+1) (n+1) None in
 	for i = 0 to n do
 		for j = 0 to n do
-			dist.(i).(j) <- g.edges.(i).(j);
+			dist.(i).(j) <- if List.mem j g.edges.(i) then 1 else inf;
 			next.(i).(j) <- Some j
 		done
 	done;

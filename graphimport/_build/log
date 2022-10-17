@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/zel/mpi/Traffic_TIPE/graphimport
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_f35b42_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_ea4d5f_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -181,7 +181,3 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_f35b42_output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl main.ml) > _build/default/.main.eobjs/main.ml.d
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -intf main.mli) > _build/default/.main.eobjs/main.mli.d
-$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I .main.eobjs/byte -no-alias-deps -opaque -o .main.eobjs/byte/dune__exe.cmo -c -impl .main.eobjs/dune__exe.ml-gen)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I .main.eobjs/byte -I .main.eobjs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o .main.eobjs/native/dune__exe.cmx -c -impl .main.eobjs/dune__exe.ml-gen)
