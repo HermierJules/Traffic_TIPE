@@ -190,6 +190,23 @@ let comp_connexe g x =
     in
     aux g x 
 
+
+let dijkstra (g : graph) s = 
+    let inf = 999999 in
+    let d = Array.make (Array.length g.vtx) inf in
+    d.(s) <- 0;
+    let l = ref [] in
+    let traite = Array.make (Array.length g.vtx) false in
+    let a_traiter = Queue.create() in
+    Queue.add s a_traiter;
+    flush_all();
+    while not (Queue.is_empty a_traiter) do
+	let x = Queue.take a_traiter in
+	l:=x::!l;
+	if not traite.(x) then List.iter (fun y -> if d.(x) + 1 < d.(y) then begin d.(y) <- d.(x) + 1; Queue.add y a_traiter end) g.edges.(x)
+    done;
+    !l
+
 let floyd_warshall (g: graph) =
     let inf = 99999 in
 	let n = Array.length g.vtx - 1 in
@@ -220,4 +237,4 @@ let floyd_warshall (g: graph) =
 
 let g = graph_import "nodes.csv" "edges.csv"
 
-let dist,next = floyd_warshall g 
+(*let dist,next = floyd_warshall g *)

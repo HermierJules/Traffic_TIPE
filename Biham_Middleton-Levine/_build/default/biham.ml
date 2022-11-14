@@ -86,7 +86,7 @@ let rec loop grille =
 
 let _ =
     let grille = Array.make_matrix (720/5) (1280/5) Empty in 
-    fill_grille 40 grille;
+    fill_grille 30 grille;
     setup ();
     loop grille
 
