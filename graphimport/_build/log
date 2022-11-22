@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/zel/mpi/Traffic_TIPE/graphimport
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_8a9fdd_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_2db02f_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -181,3 +181,63 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_8a9fdd_output
 #      ; windows_unicode = false
 #      }
 #  }
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl temp.ml) > _build/default/.temp.eobjs/temp.ml.d
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I .temp.eobjs/byte -I .temp.eobjs/native -I /home/zel/.opam/4.14.0/lib/csv -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .temp.eobjs/native/dune__exe__Temp.cmx -c -impl temp.ml)
+> File "temp.ml", line 2, characters 19-36:
+> 2 | type state = Empty | Full of voiture
+>                        ^^^^^^^^^^^^^^^^^
+> Warning 37 [unused-constructor]: unused constructor Full.
+> File "temp.ml", lines 10-13, characters 0-1:
+> 10 | type graph_list = {
+> 11 | 	mutable vtx : int list;
+> 12 | 	mutable edges : (int * int) list;
+> 13 | }
+> Warning 34 [unused-type-declaration]: unused type graph_list.
+> File "temp.ml", line 14, characters 8-11:
+> 14 | let rec max l c =
+>              ^^^
+> Warning 32 [unused-value-declaration]: unused value max.
+> File "temp.ml", line 17, characters 4-5:
+> 17 | |(t,b)::q -> if t > c then max q t else max q c 
+>          ^
+> Warning 27 [unused-var-strict]: unused variable b.
+> File "temp.ml", line 89, characters 4-9:
+> 89 | let nodes = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "nodes.csv")))
+>          ^^^^^
+> Warning 32 [unused-value-declaration]: unused value nodes.
+> File "temp.ml", line 90, characters 4-9:
+> 90 | let edges = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "edges.csv"))) 
+>          ^^^^^
+> Warning 32 [unused-value-declaration]: unused value edges.
+> File "temp.ml", lines 148-152, characters 8-12:
+> 148 | ........for i = 1 to l do
+> 149 |             maillons:=(!n-1,!n)::!maillons;
+> 150 |             nodes:=!n::!nodes;
+> 151 |             n:=!n + 1;
+> 152 |         done.
+> Warning 35 [unused-for-index]: unused for-loop index i.
+> File "temp.ml", line 159, characters 22-27:
+> 159 |     let (vtx, edges), cache  = normalize_nodes ugly_vtx ugly_edges in
+>                             ^^^^^
+> Warning 27 [unused-var-strict]: unused variable cache.
+> File "temp.ml", line 183, characters 4-16:
+> 183 | let comp_connexe g x =
+>           ^^^^^^^^^^^^
+> Warning 32 [unused-value-declaration]: unused value comp_connexe.
+> File "temp.ml", line 184, characters 23-24:
+> 184 |     Array.iteri (fun i x -> g.discovered.(i) <- false) g.discovered;
+>                              ^
+> Warning 27 [unused-var-strict]: unused variable x.
+> File "temp.ml", line 194, characters 4-12:
+> 194 | let dijkstra (g : graph) s = 
+>           ^^^^^^^^
+> Warning 32 [unused-value-declaration]: unused value dijkstra.
+> File "temp.ml", line 210, characters 4-18:
+> 210 | let floyd_warshall (g: graph) =
+>           ^^^^^^^^^^^^^^
+> Warning 32 [unused-value-declaration]: unused value floyd_warshall.
+> File "temp.ml", line 238, characters 4-5:
+> 238 | let g = graph_import "nodes.csv" "edges.csv"
+>           ^
+> Warning 32 [unused-value-declaration]: unused value g.
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -o temp.exe /usr/lib/ocaml/unix.cmxa -I /usr/lib/ocaml -I /usr/lib/ocaml /home/zel/.opam/4.14.0/lib/csv/csv.cmxa .temp.eobjs/native/dune__exe.cmx .temp.eobjs/native/dune__exe__Temp.cmx)
