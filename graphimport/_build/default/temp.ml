@@ -178,7 +178,7 @@ let graph_import file_nodes file_edges =
     {vtx = f_vtx; 
      edges = edges_list_to_array !final_edges f_edges;
      discovered = discovered;
-     processed = processed}
+     processed = processed},cache
 
 let comp_connexe g x =
     Array.iteri (fun i x -> g.discovered.(i) <- false) g.discovered;
@@ -205,7 +205,7 @@ let dijkstra (g : graph) s =
 	l:=x::!l;
 	if not traite.(x) then List.iter (fun y -> if d.(x) + 1 < d.(y) then begin d.(y) <- d.(x) + 1; Queue.add y a_traiter end) g.edges.(x)
     done;
-    !l
+    d
 
 let floyd_warshall (g: graph) =
     let inf = 99999 in
@@ -235,6 +235,6 @@ let floyd_warshall (g: graph) =
 	done;
 	dist,next
 
-let g = graph_import "nodes.csv" "edges.csv"
+let g,cache = graph_import "nodes.csv" "edges.csv"
 
 (*let dist,next = floyd_warshall g *)

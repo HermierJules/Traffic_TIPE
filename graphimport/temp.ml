@@ -207,6 +207,23 @@ let dijkstra (g : graph) s =
     done;
     d
 
+
+let dijkstra_path (g: graph) s =
+    let inf = 999999 in
+    let d = Array.make (Array.length g.vtx) inf in
+    let prev = Array.make (Array.length g.vtx) (-1) in
+    d.(s) <- 0;
+    let l = ref [] in
+    let traite = Array.make (Array.length g.vtx) false in
+    let a_traiter = Queue.create() in
+    Queue.add s a_traiter;
+    while not (Queue.is_empty a_traiter) do
+	let x = Queue.take a_traiter in
+	l:=x::!l;
+	if not traite.(x) then List.iter (fun y -> if d.(x) + 1 < d.(y) then begin d.(y) <- d.(x) + 1; prev.(y) <- x;Queue.add y a_traiter end) g.edges.(x)
+    done;
+    d, prev
+
 let floyd_warshall (g: graph) =
     let inf = 99999 in
 	let n = Array.length g.vtx - 1 in
@@ -236,5 +253,28 @@ let floyd_warshall (g: graph) =
 	dist,next
 
 let g,cache = graph_import "nodes.csv" "edges.csv"
+
+let get_closest_node nodes lat long =
+    let dist x y = 
+	(abs_float (x -. lat)) +. (abs_float (y -. long))
+    in
+    let min_dist = ref 99999999.9 in
+    let id = ref "a" in
+    for i = 1 to Array.length nodes - 1 do
+	let d = dist (float_of_string nodes.(i).(2)) (float_of_string nodes.(i).(1)) in
+	if d < !min_dist then begin
+	    min_dist:=d;
+	    id:=nodes.(i).(0);
+	end
+    done;
+    !id
+
+
+let build_path prev start finish =
+    let rec aux prev x target l =
+	if x = target then x::l 
+	else aux prev prev.(x) target (x::l)
+    in
+    aux prev finish start []
 
 (*let dist,next = floyd_warshall g *)
