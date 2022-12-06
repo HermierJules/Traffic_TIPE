@@ -28,6 +28,12 @@ let build_cache nodes =
 	done;
 	cache
 
+let build_cache_reverse nodes = 
+	let cache = Hashtbl.create 420 in
+	for i = 1 to Array.length nodes - 1 do
+		Hashtbl.add cache  (i-1) (int_of_string nodes.(i).(0)) 
+	done;
+	cache
 let add_arrete edges s d w front back =
 	let aux edges x y w = 
 		edges.(x) <- (y,w)::edges.(x)
@@ -66,4 +72,39 @@ for i = 0 to Array.length t - 1 do
 	if Array.mem s t.(i) then c:=i
 done;
 !c
+
+
+let dijkstra_path (g: w_graph) s =
+    let inf = 999999 in
+    let d = Array.make (Array.length g.vtx) inf in
+    let prev = Array.make (Array.length g.vtx) (-1) in
+    d.(s) <- 0;
+    let l = ref [] in
+    let traite = Array.make (Array.length g.vtx) false in
+    let a_traiter = Queue.create() in
+    Queue.add s a_traiter;
+    while not (Queue.is_empty a_traiter) do
+	let x = Queue.take a_traiter in
+	l:=x::!l;
+	if not traite.(x) then List.iter (fun (y,w) -> if d.(x) + w < d.(y) then begin d.(y) <- d.(x) + w; prev.(y) <- x;Queue.add y a_traiter end) g.edges.(x)
+    done;
+    d, prev
+
+let g = gimport nodes edges
+
+let build_path prev start finish =
+    let rec aux prev x target l =
+	if x = target then x::l 
+	else aux prev prev.(x) target (x::l)
+    in
+    aux prev finish start []
+
+let rec print_path l =
+    let rec aux l  = 
+    match l with
+	|[] -> print_newline(); ()
+	|t::q -> Printf.printf "%s, %s \n " nodes.(t+1).(2) nodes.(t+1).(1); aux q
+    in
+    aux l
+
 
