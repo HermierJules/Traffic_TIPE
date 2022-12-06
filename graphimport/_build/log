@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/zel/mpi/Traffic_TIPE/graphimport
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_a525bf_output
+$ /home/zel/.opam/4.11.0/bin/ocamlc.opt -config > /tmp/dune_8c5420_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -12,17 +12,17 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_a525bf_output
 #  ; for_host = None
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
-#  ; toplevel_path = Some External "/home/zel/.opam/4.14.0/lib/toplevel"
-#  ; ocaml_bin = External "/usr/bin"
-#  ; ocaml = Ok External "/home/zel/.opam/4.14.0/bin/ocaml"
-#  ; ocamlc = External "/usr/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/usr/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/usr/bin/ocamldep.opt"
-#  ; ocamlmklib = Ok External "/usr/bin/ocamlmklib.opt"
+#  ; toplevel_path = Some External "/home/zel/.opam/4.11.0/lib/toplevel"
+#  ; ocaml_bin = External "/home/zel/.opam/4.11.0/bin"
+#  ; ocaml = Ok External "/home/zel/.opam/4.11.0/bin/ocaml"
+#  ; ocamlc = External "/home/zel/.opam/4.11.0/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/zel/.opam/4.11.0/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/zel/.opam/4.11.0/bin/ocamldep.opt"
+#  ; ocamlmklib = Ok External "/home/zel/.opam/4.11.0/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/home/zel/.opam/4.14.0/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/usr/lib/ocaml"
+#        { "DUNE_OCAML_HARDCODED" : "/home/zel/.opam/4.11.0/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/zel/.opam/4.11.0/lib/ocaml"
 #        ; "DUNE_SOURCEROOT" : "/home/zel/mpi/Traffic_TIPE/graphimport"
 #        ; "INSIDE_DUNE" :
 #            "/home/zel/mpi/Traffic_TIPE/graphimport/_build/default"
@@ -35,86 +35,30 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_a525bf_output
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_paths = [ External "/home/zel/.opam/4.14.0/lib" ]
+#  ; findlib_paths = [ External "/home/zel/.opam/4.11.0/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
-#      { version = "4.14.0"
-#      ; standard_library_default = "/usr/lib/ocaml"
-#      ; standard_library = "/usr/lib/ocaml"
+#      { version = "4.11.0"
+#      ; standard_library_default = "/home/zel/.opam/4.11.0/lib/ocaml"
+#      ; standard_library = "/home/zel/.opam/4.11.0/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
 #      ; c_compiler = "gcc"
-#      ; ocamlc_cflags =
-#          [ "-O2"
-#          ; "-fno-strict-aliasing"
-#          ; "-fwrapv"
-#          ; "-pthread"
-#          ; "-g"
-#          ; "-fno-omit-frame-pointer"
-#          ; "-fPIC"
-#          ; "-march=x86-64"
-#          ; "-mtune=generic"
-#          ; "-O2"
-#          ; "-pipe"
-#          ; "-fno-plt"
-#          ; "-fexceptions"
-#          ; "-Wp,-D_FORTIFY_SOURCE=2"
-#          ; "-Wformat"
-#          ; "-Werror=format-security"
-#          ; "-fstack-clash-protection"
-#          ; "-fcf-protection"
-#          ; "-flto=auto"
-#          ; "-ffat-lto-objects"
-#          ]
-#      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#      ; ocamlc_cflags = [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-fPIC" ]
+#      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64"; "-D_REENTRANT" ]
 #      ; ocamlopt_cflags =
-#          [ "-O2"
-#          ; "-fno-strict-aliasing"
-#          ; "-fwrapv"
-#          ; "-pthread"
-#          ; "-g"
-#          ; "-fno-omit-frame-pointer"
-#          ; "-fPIC"
-#          ; "-march=x86-64"
-#          ; "-mtune=generic"
-#          ; "-O2"
-#          ; "-pipe"
-#          ; "-fno-plt"
-#          ; "-fexceptions"
-#          ; "-Wp,-D_FORTIFY_SOURCE=2"
-#          ; "-Wformat"
-#          ; "-Werror=format-security"
-#          ; "-fstack-clash-protection"
-#          ; "-fcf-protection"
-#          ; "-flto=auto"
-#          ; "-ffat-lto-objects"
-#          ]
-#      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-fPIC" ]
+#      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64"; "-D_REENTRANT" ]
 #      ; bytecomp_c_compiler =
 #          [ "gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
-#          ; "-pthread"
-#          ; "-g"
-#          ; "-fno-omit-frame-pointer"
 #          ; "-fPIC"
-#          ; "-march=x86-64"
-#          ; "-mtune=generic"
-#          ; "-O2"
-#          ; "-pipe"
-#          ; "-fno-plt"
-#          ; "-fexceptions"
-#          ; "-Wp,-D_FORTIFY_SOURCE=2"
-#          ; "-Wformat"
-#          ; "-Werror=format-security"
-#          ; "-fstack-clash-protection"
-#          ; "-fcf-protection"
-#          ; "-flto=auto"
-#          ; "-ffat-lto-objects"
 #          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-D_REENTRANT"
 #          ]
 #      ; bytecomp_c_libraries = [ "-lm"; "-lpthread" ]
 #      ; native_c_compiler =
@@ -122,24 +66,9 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_a525bf_output
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
-#          ; "-pthread"
-#          ; "-g"
-#          ; "-fno-omit-frame-pointer"
 #          ; "-fPIC"
-#          ; "-march=x86-64"
-#          ; "-mtune=generic"
-#          ; "-O2"
-#          ; "-pipe"
-#          ; "-fno-plt"
-#          ; "-fexceptions"
-#          ; "-Wp,-D_FORTIFY_SOURCE=2"
-#          ; "-Wformat"
-#          ; "-Werror=format-security"
-#          ; "-fstack-clash-protection"
-#          ; "-fcf-protection"
-#          ; "-flto=auto"
-#          ; "-ffat-lto-objects"
 #          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-D_REENTRANT"
 #          ]
 #      ; native_c_libraries = [ "-lm" ]
 #      ; native_pack_linker = [ "ld"; "-r"; "-o" ]
@@ -151,7 +80,7 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_a525bf_output
 #      ; system = "linux"
 #      ; asm = [ "as" ]
 #      ; asm_cfi_supported = true
-#      ; with_frame_pointers = true
+#      ; with_frame_pointers = false
 #      ; ext_exe = ""
 #      ; ext_obj = ".o"
 #      ; ext_asm = ".s"
@@ -165,79 +94,23 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_a525bf_output
 #      ; profiling = false
 #      ; flambda = false
 #      ; spacetime = false
-#      ; safe_string = false
-#      ; exec_magic_number = "Caml1999X031"
-#      ; cmi_magic_number = "Caml1999I031"
-#      ; cmo_magic_number = "Caml1999O031"
-#      ; cma_magic_number = "Caml1999A031"
-#      ; cmx_magic_number = "Caml1999Y031"
-#      ; cmxa_magic_number = "Caml1999Z031"
-#      ; ast_impl_magic_number = "Caml1999M031"
-#      ; ast_intf_magic_number = "Caml1999N031"
-#      ; cmxs_magic_number = "Caml1999D031"
-#      ; cmt_magic_number = "Caml1999T031"
+#      ; safe_string = true
+#      ; exec_magic_number = "Caml1999X028"
+#      ; cmi_magic_number = "Caml1999I028"
+#      ; cmo_magic_number = "Caml1999O028"
+#      ; cma_magic_number = "Caml1999A028"
+#      ; cmx_magic_number = "Caml1999Y028"
+#      ; cmxa_magic_number = "Caml1999Z028"
+#      ; ast_impl_magic_number = "Caml1999M028"
+#      ; ast_intf_magic_number = "Caml1999N028"
+#      ; cmxs_magic_number = "Caml1999D028"
+#      ; cmt_magic_number = "Caml1999T028"
 #      ; natdynlink_supported = true
 #      ; supports_shared_libraries = true
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl temp.ml) > _build/default/.temp.eobjs/temp.ml.d
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I .temp.eobjs/byte -I .temp.eobjs/native -I /home/zel/.opam/4.14.0/lib/csv -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .temp.eobjs/native/dune__exe__Temp.cmx -c -impl temp.ml)
-> File "temp.ml", line 2, characters 19-36:
-> 2 | type state = Empty | Full of voiture
->                        ^^^^^^^^^^^^^^^^^
-> Warning 37 [unused-constructor]: unused constructor Full.
-> File "temp.ml", lines 10-13, characters 0-1:
-> 10 | type graph_list = {
-> 11 | 	mutable vtx : int list;
-> 12 | 	mutable edges : (int * int) list;
-> 13 | }
-> Warning 34 [unused-type-declaration]: unused type graph_list.
-> File "temp.ml", line 14, characters 8-11:
-> 14 | let rec max l c =
->              ^^^
-> Warning 32 [unused-value-declaration]: unused value max.
-> File "temp.ml", line 17, characters 4-5:
-> 17 | |(t,b)::q -> if t > c then max q t else max q c 
->          ^
-> Warning 27 [unused-var-strict]: unused variable b.
-> File "temp.ml", line 89, characters 4-9:
-> 89 | let nodes = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "nodes.csv")))
->          ^^^^^
-> Warning 32 [unused-value-declaration]: unused value nodes.
-> File "temp.ml", line 90, characters 4-9:
-> 90 | let edges = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "edges.csv"))) 
->          ^^^^^
-> Warning 32 [unused-value-declaration]: unused value edges.
-> File "temp.ml", lines 148-152, characters 8-12:
-> 148 | ........for i = 1 to l do
-> 149 |             maillons:=(!n-1,!n)::!maillons;
-> 150 |             nodes:=!n::!nodes;
-> 151 |             n:=!n + 1;
-> 152 |         done.
-> Warning 35 [unused-for-index]: unused for-loop index i.
-> File "temp.ml", line 183, characters 4-16:
-> 183 | let comp_connexe g x =
->           ^^^^^^^^^^^^
-> Warning 32 [unused-value-declaration]: unused value comp_connexe.
-> File "temp.ml", line 184, characters 23-24:
-> 184 |     Array.iteri (fun i x -> g.discovered.(i) <- false) g.discovered;
->                              ^
-> Warning 27 [unused-var-strict]: unused variable x.
-> File "temp.ml", line 194, characters 4-12:
-> 194 | let dijkstra (g : graph) s = 
->           ^^^^^^^^
-> Warning 32 [unused-value-declaration]: unused value dijkstra.
-> File "temp.ml", line 210, characters 4-18:
-> 210 | let floyd_warshall (g: graph) =
->           ^^^^^^^^^^^^^^
-> Warning 32 [unused-value-declaration]: unused value floyd_warshall.
-> File "temp.ml", line 238, characters 4-5:
-> 238 | let g,cache = graph_import "nodes.csv" "edges.csv"
->           ^
-> Warning 32 [unused-value-declaration]: unused value g.
-> File "temp.ml", line 238, characters 6-11:
-> 238 | let g,cache = graph_import "nodes.csv" "edges.csv"
->             ^^^^^
-> Warning 32 [unused-value-declaration]: unused value cache.
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -o temp.exe /usr/lib/ocaml/unix.cmxa -I /usr/lib/ocaml -I /usr/lib/ocaml /home/zel/.opam/4.14.0/lib/csv/csv.cmxa .temp.eobjs/native/dune__exe.cmx .temp.eobjs/native/dune__exe__Temp.cmx)
+$ (cd _build/default && /home/zel/.opam/4.11.0/bin/ocamldep.opt -modules -impl temp.ml) > _build/default/.temp.eobjs/temp.ml.d
+$ (cd _build/default && /home/zel/.opam/4.11.0/bin/ocamldep.opt -modules -intf temp.mli) > _build/default/.temp.eobjs/temp.mli.d
+$ (cd _build/default && /home/zel/.opam/4.11.0/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I .temp.eobjs/byte -no-alias-deps -opaque -o .temp.eobjs/byte/dune__exe.cmo -c -impl .temp.eobjs/dune__exe.ml-gen)
+$ (cd _build/default && /home/zel/.opam/4.11.0/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I .temp.eobjs/byte -I .temp.eobjs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o .temp.eobjs/native/dune__exe.cmx -c -impl .temp.eobjs/dune__exe.ml-gen)

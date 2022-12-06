@@ -254,7 +254,7 @@ let floyd_warshall (g: graph) =
 
 let g,cache = graph_import "nodes.csv" "edges.csv"
 
-let get_closest_node nodes lat long =
+let get_closest_node lat long =
     let dist x y = 
 	(abs_float (x -. lat)) +. (abs_float (y -. long))
     in
@@ -277,4 +277,28 @@ let build_path prev start finish =
     in
     aux prev finish start []
 
+
+let find_id nodes x =
+    let check = ref true in
+    for i = 1 to Array.length nodes - 1 do
+	let id = Hashtbl.find cache (int_of_string nodes.(i).(0)) in
+	if id = x then begin check:=false; Printf.printf "%s, %s\n" nodes.(i).(2) nodes.(i).(1) end;
+	flush_all();
+    done;
+    if !check then Printf.printf "arrête artificielle \n"
+
+let rec print_path l =
+    match l with
+    |[] -> ()
+    |t::q -> find_id nodes t; print_path q
+
+let x_start = 
+    let lat, long = 45.62779770465385, 5.046790721302015 in
+    Hashtbl.find cache (int_of_string (get_closest_node lat long))
+
+let x_finish = 
+    let lat, long = 45.62817367607451, 5.073554631566981 in
+    Hashtbl.find cache (int_of_string (get_closest_node lat long))
+
+let d, prev = dijkstra_path g x_start
 (*let dist,next = floyd_warshall g *)
