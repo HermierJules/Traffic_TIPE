@@ -1,8 +1,10 @@
-# <h2 style="text-align: center;">Modélisation et Prédiction du Traffic Routier en ville</h2>
+# Traffic en ville: Modélisation et Prédiction de la congestion. <Modélisation et Prédiction du Traffic Routier>
 
-### Le sujet choisi en consiste en la prédiction de l'évolution du traffic routier en situation urbaine. 
+Le sujet choisi porte sur la prédiction des congestions et des ralentissement dans le traffic routier au moyen de modèles microscopiques informatique et une étude mathématique.
 
+Des comparaisons seront faites avec les systèmes de prédictions standards et des mesures réelles.
 ## Professeur encadrant du candidat :
+Marc De Falco (CIV)
 
 ## Positionement thématique (phase 2)
 
@@ -11,9 +13,12 @@ _INFORMATIQUE (Informatique pratique), MATHEMATIQUES (Mathématiques Appliquées
 ## Mots-clés (phase 2)
 **Mots-Clés** (en français)		**Mots-Clés** (en anglais)
 
-* truc
-* truc
-
+* Modèle microscopique
+* Automates cellullaires
+* Traffic
+* Congestion
+* Graphes
+* Algorithmes de parcours
 
 ## Bibliographie commentée
 blabla
