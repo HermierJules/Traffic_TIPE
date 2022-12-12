@@ -35,5 +35,5 @@ Je me propose :
 (traduction en anglais)
 
 ## Références bibliographiques (phase 2)
-1. Première thèse
+1. 2Fachrichtung Theoretische Physik, Universität des Saarlandes, Postfach 151150, 66041 Saarbrücken, Germany : _Empirical test for cellular automaton models of traffic flow_
 2. Deuxième Thèse 
