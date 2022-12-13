@@ -11,7 +11,8 @@ Marc De Falco (CIV)
 _INFORMATIQUE (Informatique pratique), MATHEMATIQUES (Mathématiques Appliquées)_
 
 ## Mots-clés (phase 2)
-**Mots-Clés** (en français)	
+**Mots-Clés** (en français) 
+
 * Modèle microscopique
 * Automates cellullaires
 * Traffic
@@ -23,15 +24,14 @@ _INFORMATIQUE (Informatique pratique), MATHEMATIQUES (Mathématiques Appliquées
 
 
 ## Bibliographie commentée
-blabla
 
 ## Problématique retenue
 
 ## Objectifs du TIPE du candidat
 Je me propose :
 
-* de faire des truc
-* et encore d'autres trucs
+* d'étudier des algorithmes de prédiction de congestions
+*  
 
 ## Abstract
 (vide) 
@@ -39,6 +39,6 @@ Je me propose :
 ## Références bibliographiques (phase 2)
 1. 2Fachrichtung Theoretische Physik, Universität des Saarlandes, Postfach 151150, 66041 Saarbrücken, Germany : _Empirical test for cellular automaton models of traffic flow_
 2. Boris S. Kerner : _Introduction to Modern Traffic Flow Theory and Control_
-3. 
+3. Stephane Mollier : _Two-dimensional macroscopic models for large scale_ 
 
 ## DOT
