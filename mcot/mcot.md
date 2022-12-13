@@ -1,8 +1,8 @@
 # Traffic en ville: Modélisation et Prédiction de la congestion. <Modélisation et Prédiction du Traffic Routier>
 
-Le sujet choisi porte sur la prédiction des congestions et des ralentissement dans le traffic routier au moyen de modèles microscopiques informatique et une étude mathématique.
+Le sujet choisi porte sur la prédiction des congestions et des ralentissement dans le traffic routier au moyen de modèles microscopiques informatique et une étude mathématique. L'objectif principal est d'adapter des modèles existant de simulation en une dimension et des les étendres à des réseaux routiers en 2 dimensions afin de déterminer les principales zones de congestion dans le réseau.
 
-Des comparaisons seront faites avec les systèmes de prédictions standards et des mesures réelles.
+Il sera aussi l'objet de comparaison avec des modèles de prédiction standard ainsi que des approximations mathématiques.
 ## Professeur encadrant du candidat :
 Marc De Falco (CIV)
 
@@ -11,14 +11,16 @@ Marc De Falco (CIV)
 _INFORMATIQUE (Informatique pratique), MATHEMATIQUES (Mathématiques Appliquées)_
 
 ## Mots-clés (phase 2)
-**Mots-Clés** (en français)		**Mots-Clés** (en anglais)
-
+**Mots-Clés** (en français)	
 * Modèle microscopique
 * Automates cellullaires
 * Traffic
 * Congestion
 * Graphes
 * Algorithmes de parcours
+
+**Mots-Clés** (en anglais)
+
 
 ## Bibliographie commentée
 blabla
@@ -32,8 +34,11 @@ Je me propose :
 * et encore d'autres trucs
 
 ## Abstract
-(traduction en anglais)
+(vide) 
 
 ## Références bibliographiques (phase 2)
 1. 2Fachrichtung Theoretische Physik, Universität des Saarlandes, Postfach 151150, 66041 Saarbrücken, Germany : _Empirical test for cellular automaton models of traffic flow_
-2. Deuxième Thèse 
+2. Boris S. Kerner : _Introduction to Modern Traffic Flow Theory and Control_
+3. 
+
+## DOT
