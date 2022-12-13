@@ -31,7 +31,7 @@ _INFORMATIQUE (Informatique pratique), MATHEMATIQUES (Mathématiques Appliquées
 Je me propose :
 
 * d'étudier des algorithmes de prédiction de congestions
-*  
+* Adapter des modèles théoriques existant pour comparer les résultats expérimentaux
 
 ## Abstract
 (vide) 
