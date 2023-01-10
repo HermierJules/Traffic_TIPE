@@ -111,10 +111,11 @@ let graph_import_ugly file_node file_edges=
 
 let normalize_nodes vtx edges =
     let cache = Hashtbl.create 2048 in
-    let rec cache_vtx l cache count = 
+    let revcache = Hashtbl.create 2048 in
+    let rec cache_vtx l cache revcache count = 
         match l with
         |[] -> ()
-        |t::q -> Hashtbl.add cache t count; cache_vtx q cache (count+1)
+	|t::q -> Hashtbl.add cache t count;Hashtbl.add revcache count t; cache_vtx q cache revcache (count+1)
     in
     let rec n_vtx l new_l cache =
         match l with
@@ -128,12 +129,12 @@ let normalize_nodes vtx edges =
                      new_l:=((nx,ny),t)::!new_l;
                     n_edges q new_l cache
     in
-    cache_vtx vtx cache 0;
+    cache_vtx vtx cache revcache 0;
     let ne = ref [] in
     let nv = ref [] in
     n_edges edges ne cache; 
     n_vtx vtx nv cache;
-    (nv, ne),cache
+    (nv, ne),cache, revcache
 
 
 let extend_edge nodes edge =
@@ -156,7 +157,7 @@ let extend_edge nodes edge =
             
 let graph_import file_nodes file_edges = 
     let ugly_vtx, ugly_edges = graph_import_ugly file_nodes file_edges in 
-    let (vtx, edges), cache  = normalize_nodes ugly_vtx ugly_edges in
+    let (vtx, edges), cache, revcache  = normalize_nodes ugly_vtx ugly_edges in
     let rec finalize_edges vtx edges final_edges =
         match edges with
         |[] -> ()
@@ -178,7 +179,7 @@ let graph_import file_nodes file_edges =
     {vtx = f_vtx; 
      edges = edges_list_to_array !final_edges f_edges;
      discovered = discovered;
-     processed = processed},cache
+     processed = processed},cache, revcache
 
 let comp_connexe g x =
     Array.iteri (fun i x -> g.discovered.(i) <- false) g.discovered;
@@ -252,12 +253,12 @@ let floyd_warshall (g: graph) =
 	done;
 	dist,next
 
-let g,cache = graph_import "nodes.csv" "edges.csv"
+let g, cache, revcache = graph_import "nodes.csv" "edges.csv"
 
 let get_closest_node lat long =
     let dist x y = 
 	(abs_float (x -. lat)) +. (abs_float (y -. long))
-    in
+	in
     let min_dist = ref 99999999.9 in
     let id = ref "a" in
     for i = 1 to Array.length nodes - 1 do
@@ -299,6 +300,9 @@ let x_start =
 let x_finish = 
     let lat, long = 45.62817367607451, 5.073554631566981 in
     Hashtbl.find cache (int_of_string (get_closest_node lat long))
-
+(*
+let allonge_arete g (x,y) n =
+    let n = ref g.vtx in 
+    *)
 let d, prev = dijkstra_path g x_start
 (*let dist,next = floyd_warshall g *)
