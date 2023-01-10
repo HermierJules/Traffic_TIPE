@@ -300,9 +300,28 @@ let x_start =
 let x_finish = 
     let lat, long = 45.62817367607451, 5.073554631566981 in
     Hashtbl.find cache (int_of_string (get_closest_node lat long))
+
+let get_length x y revcache edges = 
+    let n = Array.length edges in
+    let t = ref "0.0" in 
+    let x = string_of_int (Hashtbl.find revcache x) in
+    let y = string_of_int (Hashtbl.find revcache y) in
+    for i = 1 to n - 1 do
+	if (edges.(i).(1) = x || edges.(i).(1) = y) &&
+	    (edges.(i).(2) = x || edges.(i).(2) = y)
+	then t:=edges.(i).(3) 
+    done;
+    float_of_string !t
 (*
-let allonge_arete g (x,y) n =
+let allonge_arete g (x,y) edges =
     let n = ref g.vtx in 
-    *)
+    let *)
+
+let invcache = 
+    let c = Hashtbl.create 2000 in
+    Hashtbl.iter 
+    (fun a b -> Hashtbl.add c b a) 
+    cache;
+    c
 let d, prev = dijkstra_path g x_start
 (*let dist,next = floyd_warshall g *)
