@@ -37,8 +37,15 @@ let make_weighted_graph edges =
             e.(y) <- (x,len)::e.(y) 
         end;
     done;
-    e
+    e,cache
 
- 
+let find_biggest_node g = 
+    let m = ref 0 in
+    let mn = ref (-1) in
+    Array.iteri (fun i (l: 'a list) -> let n = List.length l in if n > !m then begin
+        m:=n;
+        mn:=i;
+    end else ()) g;
+    !mn, !m
         
-
+(*------------------------------------------------------------------*)
