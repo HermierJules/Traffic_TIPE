@@ -1,0 +1,7 @@
+(executable
+  (name Graphimport)
+  (libraries csv))
+
+(env
+  (dev
+    (flags (:standard -warn-error -A))))

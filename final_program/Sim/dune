@@ -1,0 +1,8 @@
+(executable
+ (name Sim)
+)
+(env
+ (dev
+   (flags (:standard -warn-error -A))
+  )
+)
