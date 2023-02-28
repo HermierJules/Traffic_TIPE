@@ -1,9 +1,9 @@
-# dune build
+# dune utop .
 # OCAMLPARAM: unset
 # Shared cache: disabled
-# Workspace root: /home/zel/mp2i/Traffic_TIPE/final_program
+# Workspace root: /home/zel/mpi/Traffic_TIPE/final_program
 # Auto-detected concurrency: 8
-$ /home/zel/.opam/4.11.0/bin/ocamlc.opt -config > /tmp/dune_d3df2c_output
+$ /home/zel/.opam/4.11.0/bin/ocamlc.opt -config > /tmp/dune_74431d_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -23,15 +23,15 @@ $ /home/zel/.opam/4.11.0/bin/ocamlc.opt -config > /tmp/dune_d3df2c_output
 #      map
 #        { "DUNE_OCAML_HARDCODED" : "/home/zel/.opam/4.11.0/lib"
 #        ; "DUNE_OCAML_STDLIB" : "/home/zel/.opam/4.11.0/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/home/zel/mp2i/Traffic_TIPE/final_program"
+#        ; "DUNE_SOURCEROOT" : "/home/zel/mpi/Traffic_TIPE/final_program"
 #        ; "INSIDE_DUNE" :
-#            "/home/zel/mp2i/Traffic_TIPE/final_program/_build/default"
+#            "/home/zel/mpi/Traffic_TIPE/final_program/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/zel/mp2i/Traffic_TIPE/final_program/_build/install/default/lib"
+#            "/home/zel/mpi/Traffic_TIPE/final_program/_build/install/default/lib"
 #        ; "OCAMLPATH" :
-#            "/home/zel/mp2i/Traffic_TIPE/final_program/_build/install/default/lib"
+#            "/home/zel/mpi/Traffic_TIPE/final_program/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/zel/mp2i/Traffic_TIPE/final_program/_build/install/default/lib/toplevel"
+#            "/home/zel/mpi/Traffic_TIPE/final_program/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
@@ -110,3 +110,5 @@ $ /home/zel/.opam/4.11.0/bin/ocamlc.opt -config > /tmp/dune_d3df2c_output
 #      ; windows_unicode = false
 #      }
 #  }
+$ (cd _build/default && /home/zel/.opam/4.11.0/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -24 -g -bin-annot -I .utop/.utop.eobjs/byte -I /home/zel/.opam/4.11.0/lib/csv -I /home/zel/.opam/4.11.0/lib/findlib -I /home/zel/.opam/4.11.0/lib/lambda-term -I /home/zel/.opam/4.11.0/lib/logs -I /home/zel/.opam/4.11.0/lib/lwt -I /home/zel/.opam/4.11.0/lib/lwt/unix -I /home/zel/.opam/4.11.0/lib/lwt_react -I /home/zel/.opam/4.11.0/lib/mew -I /home/zel/.opam/4.11.0/lib/mew_vi -I /home/zel/.opam/4.11.0/lib/ocaml/compiler-libs -I /home/zel/.opam/4.11.0/lib/ocaml/threads -I /home/zel/.opam/4.11.0/lib/ocplib-endian -I /home/zel/.opam/4.11.0/lib/ocplib-endian/bigstring -I /home/zel/.opam/4.11.0/lib/react -I /home/zel/.opam/4.11.0/lib/result -I /home/zel/.opam/4.11.0/lib/trie -I /home/zel/.opam/4.11.0/lib/uchar -I /home/zel/.opam/4.11.0/lib/utop -I /home/zel/.opam/4.11.0/lib/uucp -I /home/zel/.opam/4.11.0/lib/uuseg -I /home/zel/.opam/4.11.0/lib/uutf -I /home/zel/.opam/4.11.0/lib/zed -I Graphimport/.Graphimport.objs/byte -I Sim/.Sim.objs/byte -no-alias-deps -o .utop/.utop.eobjs/byte/dune__exe__Utop.cmo -c -impl .utop/utop.ml-gen)
+$ (cd _build/default && /home/zel/.opam/4.11.0/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -24 -g -o .utop/utop.exe -output-complete-exe /home/zel/.opam/4.11.0/lib/ocaml/compiler-libs/ocamlcommon.cma /home/zel/.opam/4.11.0/lib/ocaml/compiler-libs/ocamlbytecomp.cma /home/zel/.opam/4.11.0/lib/ocaml/compiler-libs/ocamltoplevel.cma /home/zel/.opam/4.11.0/lib/findlib/findlib.cma /home/zel/.opam/4.11.0/lib/findlib/findlib_top.cma /home/zel/.opam/4.11.0/lib/logs/logs.cma -I /home/zel/.opam/4.11.0/lib/ocaml /home/zel/.opam/4.11.0/lib/lwt/lwt.cma /home/zel/.opam/4.11.0/lib/logs/logs_lwt.cma /home/zel/.opam/4.11.0/lib/ocaml/unix.cma -I /home/zel/.opam/4.11.0/lib/ocaml /home/zel/.opam/4.11.0/lib/ocaml/bigarray.cma -I /home/zel/.opam/4.11.0/lib/ocaml /home/zel/.opam/4.11.0/lib/ocplib-endian/ocplib_endian.cma /home/zel/.opam/4.11.0/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cma /home/zel/.opam/4.11.0/lib/ocaml/threads/threads.cma -I /home/zel/.opam/4.11.0/lib/ocaml /home/zel/.opam/4.11.0/lib/lwt/unix/lwt_unix.cma -I /home/zel/.opam/4.11.0/lib/lwt/unix /home/zel/.opam/4.11.0/lib/react/react.cma /home/zel/.opam/4.11.0/lib/lwt_react/lwt_react.cma /home/zel/.opam/4.11.0/lib/result/result.cma /home/zel/.opam/4.11.0/lib/uutf/uutf.cma /home/zel/.opam/4.11.0/lib/uucp/uucp.cma /home/zel/.opam/4.11.0/lib/uuseg/uuseg.cma /home/zel/.opam/4.11.0/lib/zed/zed.cma /home/zel/.opam/4.11.0/lib/trie/trie.cma /home/zel/.opam/4.11.0/lib/mew/mew.cma /home/zel/.opam/4.11.0/lib/mew_vi/mew_vi.cma /home/zel/.opam/4.11.0/lib/lambda-term/lambda_term.cma -I /home/zel/.opam/4.11.0/lib/lambda-term /home/zel/.opam/4.11.0/lib/utop/uTop.cma /home/zel/.opam/4.11.0/lib/csv/csv.cma Graphimport/Graphimport.cma Sim/Sim.cma .utop/.utop.eobjs/byte/dune__exe__Utop.cmo -linkall -warn-error -31)

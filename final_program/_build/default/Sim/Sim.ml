@@ -66,5 +66,5 @@ let simulate road =
 	mvt road
 
 
-let road_create n = 
+let make_road n = 
     Array.make n Empty

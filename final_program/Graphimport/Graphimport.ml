@@ -1,4 +1,4 @@
-type weighted_graph = (int * int) list array
+type weighted_graph = (int * float) list array
 
 let nodes = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "nodes.csv")))
 let edges = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "edges.csv"))) 

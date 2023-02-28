@@ -1,6 +1,7 @@
 (executable
  (name main)
-)
+(libraries unix Graphimport Sim)
+ )
 (env
  (dev
    (flags (:standard -warn-error -A))
