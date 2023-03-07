@@ -7,9 +7,10 @@ let make_road_graph g =
         List.iter 
         (fun (y,w) ->
             let n = (int_of_float w) + 1 in
-            Hashtbl.add road_graph (x,y) (make_road n))
+            Hashtbl.add road_graph (x,y) ((make_road n), []))
         l)
-        g
+    g;
+    road_graph
 
 let _ = 
     let g, cache = make_weighted_graph edges in ()
