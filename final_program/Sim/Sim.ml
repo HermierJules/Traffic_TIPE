@@ -13,7 +13,7 @@ let check_safety r lane i =
 		match r.(lane).(i- !c) with
 		|Empty -> incr c
 		|Block -> incr c
-		|Voiture v -> if v > !c then (check:=false; okay:=false)
+		|Voiture (v,_) -> if v > !c then (check:=false; okay:=false)
 					else check:=false
 	done;
 	!okay
@@ -34,12 +34,12 @@ let collision l n v lane =
 
 let new_acc r i lane =
 	match r.(lane).(i) with
-	|Empty -> ()
-	|Block -> ()
+	|Empty -> failwith "not car"
+	|Block -> failwith "not car"
 	|Voiture (v,d) -> if lane <> 0 && lane <> Array.length r - 1 then begin
 		let m = collision r i v lane in
 		let m' = collision r i v (lane-1) in
-		let m'' collision r i v (lane+1) in
+		let m''=  collision r i v (lane+1) in
 		if m' > m && check_safety r (lane - 1) i
 			then if m'' > m' && check_safety r (lane + 1) i
 			then (lane+1,m'')
@@ -54,13 +54,13 @@ let new_acc r i lane =
 		else begin
 			let m = collision r i v lane in
 			let m' = collision r i v (lane - 1)  in
-			if m' > m && check_safety r (lane - 1) i then (lane - 1, m') else (lane, m)
+			if m' > m && check_safety r (lane - 1) i then (lane - 1, m') else (lane, m) end
 
 
 
 let accelerate l vmax =
 	for lane = 0 to Array.length l -1 do
-		for i = 0 to Array.length l.(lane).(0) - 1 do
+		for i = 0 to Array.length l.(0) - 1 do
 		match l.(lane).(i) with 
 		|Empty -> ()
                 |Block -> ()
@@ -80,7 +80,7 @@ let deccelerate l =
 			match l.(lane).(i) with
 			|Empty -> ()
 			|Block -> ()
-			|Voiture (a,d) -> l.(lane).(i) <- Voiture (collision l i a, d)
+			|Voiture (a,d) -> l.(lane).(i) <- Voiture (collision l i a lane, d)
 	done;
 done
 
@@ -88,22 +88,27 @@ done
 let randomizer l p =
 	for lane = 0 to Array.length l-1 do 
 		for i = 0 to Array.length l.(0) - 1 do
-			match l.lane.(i) with
+			match l.(lane).(i) with
 			|Empty -> ()
 			|Block -> ()
-			|Voiture (a,d) -> if a > 0 && Random.int 100 < p then l.(i) <- Voiture ((a-1),d)
+			|Voiture (a,d) -> if a > 0 && Random.int 100 < p then l.(lane).(i) <- Voiture ((a-1),d)
 	done;
 done 
 
 let mvt l buf= 
     let out = ref buf in
-	for i = Array.length l - 1 downto 0 do
-		match l.(i) with
+    for lane = Array.length l - 1 downto 0 do
+	for i = Array.length l.(0) - 1 downto 0 do
+		match l.(lane).(i) with
 		|Empty -> ()
          |Block -> ()
-	|Voiture (a, d) -> if a != 0 then l.(i) <- Empty; if (i+a) < Array.length l then begin l.(i+a) <- Voiture (a,d) end
+	|Voiture (_, d) ->
+		let (new_l,a) = new_acc l i lane in
+
+		if a != 0 then l.(lane).(i) <- Empty; if (i+a) < Array.length l.(0) then begin l.(new_l).(i+a) <- Voiture (a,d) end
 						     else  (out:=Voiture (a,d)::!out)
 	done;
+    done;
 	!out
 
 let simulate road buf =

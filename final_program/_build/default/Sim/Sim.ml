@@ -1,60 +1,114 @@
 type case = Empty | Voiture of int * int | Block
+type bufgraph = case list array
+type road = case array array
 
-type road = case array
+
+
+
+let check_safety r lane i =
+	let c =	ref 1 in
+	let check = ref true in
+	let okay = ref true in
+	while !check  do
+		match r.(lane).(i- !c) with
+		|Empty -> incr c
+		|Block -> incr c
+		|Voiture (v,_) -> if v > !c then (check:=false; okay:=false)
+					else check:=false
+	done;
+	!okay
+
+let collision l n v lane =
+	let newv = ref v in
+	let check = ref true in 
+	for i = n+1 to n+v do
+		if i < Array.length l.(0) then
+		match l.(lane).(i) with
+		|Empty -> ()
+		|Voiture _ -> if !check then begin newv:= i-n-1;
+						  check:= false end
+		|Block ->     if !check then begin newv:= i-n-1;
+						  check:= false end
+	done;
+	!newv
+
+let new_acc r i lane =
+	match r.(lane).(i) with
+	|Empty -> failwith "not car"
+	|Block -> failwith "not car"
+	|Voiture (v,d) -> if lane <> 0 && lane <> Array.length r - 1 then begin
+		let m = collision r i v lane in
+		let m' = collision r i v (lane-1) in
+		let m''=  collision r i v (lane+1) in
+		if m' > m && check_safety r (lane - 1) i
+			then if m'' > m' && check_safety r (lane + 1) i
+			then (lane+1,m'')
+			else (lane-1,m')
+		else if m'' > m && check_safety r (lane + 1) i then (lane+1,m'')
+		else (lane,m)
+	end
+		else if lane = 0 then begin
+			let m = collision r i v lane in
+			let m' = collision r i v (lane + 1) in 
+			if m' > m && check_safety r (lane + 1) i then (lane+1,m') else (lane, m) end
+		else begin
+			let m = collision r i v lane in
+			let m' = collision r i v (lane - 1)  in
+			if m' > m && check_safety r (lane - 1) i then (lane - 1, m') else (lane, m) end
+
+
 
 let accelerate l vmax =
-	for i = 0 to Array.length l -1 do
-		match l.(i) with 
+	for lane = 0 to Array.length l -1 do
+		for i = 0 to Array.length l.(0) - 1 do
+		match l.(lane).(i) with 
 		|Empty -> ()
                 |Block -> ()
-		|Voiture (a,d) -> if a < vmax then l.(i) <- Voiture (a+1,d)
+		|Voiture (a,d) -> if a < vmax then l.(lane).(i) <- Voiture (a+1,d)
+		done;
 	done
 
 
-	let collision l n v =
-                let newv = ref v in
-                let check = ref true in 
-                for i = n+1 to n+v do
-                        if i < Array.length l then
-                        match l.(i) with
-                        |Empty -> ()
-                        |Voiture _ -> if !check then begin newv:= i-n-1;
-                                                          check:= false end
-                        |Block ->     if !check then begin newv:= i-n-1;
-                                                          check:= false end
-                done;
-                !newv
 
 
 
 
 
 let deccelerate l = 
-for i = 0 to Array.length l - 1 do 
-	match l.(i) with
-	|Empty -> ()
-        |Block -> ()
-	|Voiture (a,d) -> l.(i) <- Voiture (collision l i a, d)
+	for lane = 0 to Array.length l - 1 do
+		for i = 0 to Array.length l.(0) - 1 do 
+			match l.(lane).(i) with
+			|Empty -> ()
+			|Block -> ()
+			|Voiture (a,d) -> l.(lane).(i) <- Voiture (collision l i a lane, d)
+	done;
 done
 
 
 let randomizer l p =
-	for i = 0 to Array.length l-1 do 
-	match l.(i) with
-	|Empty -> ()
-        |Block -> ()
-	|Voiture (a,d) -> if a > 0 && Random.int 100 < p then l.(i) <- Voiture ((a-1),d)
-done
+	for lane = 0 to Array.length l-1 do 
+		for i = 0 to Array.length l.(0) - 1 do
+			match l.(lane).(i) with
+			|Empty -> ()
+			|Block -> ()
+			|Voiture (a,d) -> if a > 0 && Random.int 100 < p then l.(lane).(i) <- Voiture ((a-1),d)
+	done;
+done 
 
 let mvt l buf= 
     let out = ref buf in
-	for i = Array.length l - 1 downto 0 do
-		match l.(i) with
+    for lane = Array.length l - 1 downto 0 do
+	for i = Array.length l.(0) - 1 downto 0 do
+		match l.(lane).(i) with
 		|Empty -> ()
          |Block -> ()
-	|Voiture (a, d) -> if a != 0 then l.(i) <- Empty; if (i+a) < Array.length l then begin l.(i+a) <- Voiture (a,d) end
+	|Voiture (_, d) ->
+		let (new_l,a) = new_acc l i lane in
+
+		if a != 0 then l.(lane).(i) <- Empty; if (i+a) < Array.length l.(0) then begin l.(new_l).(i+a) <- Voiture (a,d) end
 						     else  (out:=Voiture (a,d)::!out)
 	done;
+    done;
 	!out
 
 let simulate road buf =
@@ -105,5 +159,5 @@ let get_next_node g s d =
 	List.nth l 1
 
 
-let make_road n = 
-    Array.make n Empty
+let make_road n l = 
+    Array.make l (Array.make n Empty)
