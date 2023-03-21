@@ -1,10 +1,11 @@
-type weighted_graph = (int * float) list array
+type weighted_graph = (int * float * int) list array
+(* destination, weight, number of lanes*)
 
 let nodes = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "nodes.csv")))
 let edges = Csv.to_array (Csv.input_all(Csv.of_channel (open_in "edges.csv"))) 
 
 
-let make_weighted_graph edges =
+let make_weighted_graph edges : weighted_graph * (string, int) Hashtbl.t =
     let list_of_all_nodes edges =
         let l = ref [] in
         for i = 1 to Array.length edges - 1 do
@@ -25,16 +26,18 @@ let make_weighted_graph edges =
     List.iter (fun x -> Hashtbl.add cache x !count; incr count) l;
     for i = 1 to Array.length edges - 1 do
         if int_of_string edges.(i).(5) > 0 then begin
+            let lane = int_of_string edges.(i).(5) in
             let x = Hashtbl.find cache edges.(i).(1) in
             let y = Hashtbl.find cache edges.(i).(2) in
             let len = float_of_string edges.(i).(3) in
-            e.(x) <- (y,len)::e.(x) 
+            e.(x) <- (y,len, lane)::e.(x) 
         end;
         if int_of_string edges.(i).(6) > 0 then begin
             let x = Hashtbl.find cache edges.(i).(1) in
+            let lane = int_of_string edges.(i).(5) in
             let y = Hashtbl.find cache edges.(i).(2) in
             let len = float_of_string edges.(i).(3) in
-            e.(y) <- (x,len)::e.(y) 
+            e.(y) <- (x,len, lane)::e.(y) 
         end;
     done;
     e,cache

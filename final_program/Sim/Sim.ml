@@ -4,19 +4,27 @@ type road = case array array
 
 
 
+let road_copy (r : road) : road=
+	let nl = Array.length r in
+	let l = Array.make nl [||] in
+	for i = 0 to nl - 1 do
+		l.(i) <- Array.copy r.(i) 
+	done;
+	l
 
 let check_safety r lane i =
+	if i = 0 then true else begin
 	let c =	ref 1 in
 	let check = ref true in
 	let okay = ref true in
 	while !check  do
-		match r.(lane).(i- !c) with
+		match r.(lane).(i - !c) with
 		|Empty -> incr c
 		|Block -> incr c
 		|Voiture (v,_) -> if v > !c then (check:=false; okay:=false)
 					else check:=false
-	done;
-	!okay
+	done; 
+	!okay end
 
 let collision l n v lane =
 	let newv = ref v in
@@ -95,7 +103,8 @@ let randomizer l p =
 	done;
 done 
 
-let mvt l buf= 
+let mvt r buf= 
+    let l = road_copy r in
     let out = ref buf in
     for lane = Array.length l - 1 downto 0 do
 	for i = Array.length l.(0) - 1 downto 0 do
@@ -105,8 +114,10 @@ let mvt l buf=
 	|Voiture (_, d) ->
 		let (new_l,a) = new_acc l i lane in
 
-		if a != 0 then l.(lane).(i) <- Empty; if (i+a) < Array.length l.(0) then begin l.(new_l).(i+a) <- Voiture (a,d) end
-						     else  (out:=Voiture (a,d)::!out)
+		if a <> 0 then begin r.(lane).(i) <- Empty; if (i+a) < Array.length l.(0)
+					then r.(new_l).(i+a) <- Voiture (a,d)  
+					else  (out:=Voiture (a,d)::!out) 
+				end
 	done;
     done;
 	!out
@@ -160,4 +171,14 @@ let get_next_node g s d =
 
 
 let make_road n l = 
-    Array.make l (Array.make n Empty)
+    Array.make_matrix l n Empty
+
+let l = 
+	(let l = make_road 9 5 in
+	l.(2).(0) <- Voiture (5,99);
+	l.(2).(2) <- Voiture (5,99);
+	l)
+(*
+let print_road l = 
+	for i = 0 to Array.length l do
+		for i = 0 to Array.length l.(0) do*)
