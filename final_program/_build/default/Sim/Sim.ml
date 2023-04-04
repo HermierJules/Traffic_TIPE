@@ -44,7 +44,7 @@ let new_acc r i lane =
 	match r.(lane).(i) with
 	|Empty -> failwith "not car"
 	|Block -> failwith "not car"
-	|Voiture (v,d) -> if lane <> 0 && lane <> Array.length r - 1 then begin
+	|Voiture (v,_) -> if lane <> 0 && lane <> Array.length r - 1 then begin
 		let m = collision r i v lane in
 		let m' = collision r i v (lane-1) in
 		let m''=  collision r i v (lane+1) in
@@ -138,8 +138,8 @@ let simulate road buf =
 let dijkstra g s =
 	let rec get_weight l y =
 		match l with
-		|(y,w)::q -> (int_of_float w) + 1
-		|_::q -> get_weight q s 
+		|(x,w,_)::q -> if x = y then (int_of_float w) + 1
+				else get_weight q s 
 		|_ -> failwith "??"
 	in
 	let inf = max_int in
@@ -153,7 +153,7 @@ let dijkstra g s =
 	while not (Queue.is_empty a_traiter) do
 		let x = Queue.take a_traiter in
 		l:=x::!l;
-		if not traite.(x) then List.iter (fun (y,_) -> if d.(x) + (get_weight g.(x) y) < d.(y) then begin d.(y) <- d.(x) + (get_weight g.(x) y); prev.(y) <- x;Queue.add y a_traiter end) g.(x)
+		if not traite.(x) then List.iter (fun (y,_,_) -> if d.(x) + (get_weight g.(x) y) < d.(y) then begin d.(y) <- d.(x) + (get_weight g.(x) y); prev.(y) <- x;Queue.add y a_traiter end) g.(x)
     done;
     d, prev
 
@@ -164,18 +164,45 @@ let build_path prev start finish =
 	in
 	aux prev finish start []
 
-(*
-let redistribuate_flux g bufg =
+let next_node g i d =
+	if i = d then None else begin
+	let _, prev = dijkstra g i in
+	let p = build_path prev i d in
+	let p = List.tl p in
+	if p = [] then None else Some (List.hd p) 
+	end
+
+let put_char gr v id = 
+	let r, _ = Hashtbl.find gr id in
+	let check = ref true in
+	for i = 0 to Array.length r - 1 do
+		match r.(i).(0) with
+		|Empty -> if !check then (r.(i).(0) <- v; check:=false)
+		|_ -> ()
+	done;
+	not (!check)
+
+let redistribuate_flux g gr =
+	let rec aux l i = 
+		match l with
+		|[] -> []
+		|Voiture (a,d)::q ->  begin
+				match next_node g i d with
+				|None -> aux q i
+				|Some p -> if put_char gr (Voiture (a,d)) (i,p) then aux q i else Voiture(a,d)::aux q i end
+
+		|_ -> failwith "not a car"
+	in
 	for i = 0 to Array.length g - 1 do
-*)
+		List.iter (fun (d,_,_) -> 
+			let (r,l) = Hashtbl.find gr (i,d) in
+			let new_l = aux l i
+			in Hashtbl.replace gr (i,d) (r,new_l))
+		g.(i)
+	done
 
 
 
-let get_next_node g s d =
-	if s = d then 1 else
-	let _,prev = dijkstra g s in
-	let l = build_path prev s d in
-	List.nth l 1
 
 
 let make_road n l = 

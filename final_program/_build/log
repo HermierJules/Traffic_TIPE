@@ -1,9 +1,9 @@
-# dune build
+# dune utop .
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Workspace root: /home/zel/mpi/Traffic_TIPE/final_program
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_48c8a0_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_8adb3e_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -181,42 +181,3 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_48c8a0_output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I main/.main.eobjs/byte -I /home/zel/.opam/4.14.0/lib/csv -I Graphimport/.Graphimport.objs/byte -I Sim/.Sim.objs/byte -no-alias-deps -opaque -o main/.main.eobjs/byte/dune__exe__Main.cmi -c -intf main/main.mli)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I main/.main.eobjs/byte -I main/.main.eobjs/native -I /home/zel/.opam/4.14.0/lib/csv -I Graphimport/.Graphimport.objs/byte -I Graphimport/.Graphimport.objs/native -I Sim/.Sim.objs/byte -I Sim/.Sim.objs/native -intf-suffix .ml -no-alias-deps -opaque -o main/.main.eobjs/native/dune__exe__Main.cmx -c -impl main/main.ml)
-> File "main/main.ml", line 4, characters 4-19:
-> 4 | let make_road_graph g =
->         ^^^^^^^^^^^^^^^
-> Warning 32 [unused-value-declaration]: unused value make_road_graph.
-> File "main/main.ml", line 16, characters 8-9:
-> 16 |     let g, cache = make_weighted_graph edges in ()
->              ^
-> Warning 26 [unused-var]: unused variable g.
-> File "main/main.ml", line 16, characters 11-16:
-> 16 |     let g, cache = make_weighted_graph edges in ()
->                 ^^^^^
-> Warning 26 [unused-var]: unused variable cache.
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I Graphimport/.Graphimport.objs/byte -I Graphimport/.Graphimport.objs/native -I /home/zel/.opam/4.14.0/lib/csv -intf-suffix .ml -no-alias-deps -opaque -o Graphimport/.Graphimport.objs/native/graphimport.cmx -c -impl Graphimport/Graphimport.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I Sim/.Sim.objs/byte -I Sim/.Sim.objs/native -intf-suffix .ml -no-alias-deps -opaque -o Sim/.Sim.objs/native/sim.cmx -c -impl Sim/Sim.ml)
-> File "Sim/Sim.ml", line 142, characters 3-7:
-> 142 | 		|_::q -> get_weight q s 
->       		 ^^^^
-> Warning 11 [redundant-case]: this match case is unused.
-> File "Sim/Sim.ml", line 47, characters 13-14:
-> 47 | 	|Voiture (v,d) -> if lane <> 0 && lane <> Array.length r - 1 then begin
->      	            ^
-> Warning 27 [unused-var-strict]: unused variable d.
-> File "Sim/Sim.ml", line 139, characters 22-23:
-> 139 | 	let rec get_weight l y =
->       	                     ^
-> Warning 27 [unused-var-strict]: unused variable y.
-> File "Sim/Sim.ml", line 141, characters 4-5:
-> 141 | 		|(y,w)::q -> (int_of_float w) + 1
->       		  ^
-> Warning 27 [unused-var-strict]: unused variable y.
-> File "Sim/Sim.ml", line 141, characters 10-11:
-> 141 | 		|(y,w)::q -> (int_of_float w) + 1
->       		        ^
-> Warning 27 [unused-var-strict]: unused variable q.
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -a -o Sim/Sim.cmxa Sim/.Sim.objs/native/sim.cmx)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -a -o Graphimport/Graphimport.cmxa Graphimport/.Graphimport.objs/native/graphimport.cmx)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -o main/main.exe /usr/lib/ocaml/unix.cmxa -I /usr/lib/ocaml -I /usr/lib/ocaml /home/zel/.opam/4.14.0/lib/csv/csv.cmxa Graphimport/Graphimport.cmxa Sim/Sim.cmxa main/.main.eobjs/native/dune__exe__Main.cmx)
