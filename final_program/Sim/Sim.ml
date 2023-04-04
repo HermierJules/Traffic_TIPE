@@ -128,9 +128,10 @@ let simulate road buf =
 	let proba = 50 in 
 	(*fin des defs*)
 	accelerate road vmax;
-        deccelerate road;
 	randomizer road proba;
-	mvt road buf 
+	let buf = mvt road buf in
+	buf
+
 
 
 
@@ -162,6 +163,13 @@ let build_path prev start finish =
 		else aux prev prev.(x) target (x::l)
 	in
 	aux prev finish start []
+
+(*
+let redistribuate_flux g bufg =
+	for i = 0 to Array.length g - 1 do
+*)
+
+
 
 let get_next_node g s d =
 	if s = d then 1 else
