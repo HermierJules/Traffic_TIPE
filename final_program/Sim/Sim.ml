@@ -122,16 +122,6 @@ let mvt r buf=
     done;
 	!out
 
-let simulate road buf =
-	(* Definitions*)
-	let vmax = 5 in
-	let proba = 50 in 
-	(*fin des defs*)
-	accelerate road vmax;
-	randomizer road proba;
-	let buf = mvt road buf in
-	buf
-
 
 
 
@@ -139,7 +129,7 @@ let dijkstra g s =
 	let rec get_weight l y =
 		match l with
 		|(x,w,_)::q -> if x = y then (int_of_float w) + 1
-				else get_weight q s 
+				else get_weight q y 
 		|_ -> failwith "??"
 	in
 	let inf = max_int in
@@ -202,11 +192,40 @@ let redistribuate_flux g gr =
 	done
 
 
+let simulate road buf =
+	(* Definitions*)
+	let vmax = 5 in
+	let proba = 30 in 
+	(*fin des defs*)
+	accelerate road vmax;
+	randomizer road proba;
+	let buf = mvt road buf in
+	buf
 
-
+let simulate_full g gr = 
+	for i = 0 to Array.length g - 1 do
+		List.iter (fun (y,_,_) -> 
+			let (r,b) = Hashtbl.find gr (i,y) in
+			let buf = simulate r b in
+			Hashtbl.replace gr (i,y) (r,buf))
+		g.(i);
+	done;
+	redistribuate_flux g gr 
 
 let make_road n l = 
     Array.make_matrix l n Empty
+
+let find_single_car g gr =
+	for i = 0 to Array.length g - 1 do
+		List.iter (fun (y,_,_) -> 
+			let (r,_) = Hashtbl.find gr (i,y) in
+			for x = 0 to Array.length r - 1 do
+				for j = 0 to Array.length r.(0) - 1 do
+					if r.(x).(j) <> Empty then Printf.printf "the car is in %d -> %d" i y done;
+			done)
+		g.(i);
+	done
+	
 
 let l = 
 	(let l = make_road 9 5 in
