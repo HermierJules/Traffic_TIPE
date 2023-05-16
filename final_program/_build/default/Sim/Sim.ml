@@ -221,7 +221,7 @@ let find_single_car g gr =
 			let (r,_) = Hashtbl.find gr (i,y) in
 			for x = 0 to Array.length r - 1 do
 				for j = 0 to Array.length r.(0) - 1 do
-					if r.(x).(j) <> Empty then Printf.printf "the car is in %d -> %d" i y done;
+					if r.(x).(j) <> Empty then Printf.printf "the car is in %d -> %d in %d, %d" i y x j done;
 			done)
 		g.(i);
 	done
