@@ -225,12 +225,25 @@ let find_single_car g gr =
 			done)
 		g.(i);
 	done
-	
+
+let draw_road r =
+	for i = 0 to Array.length r - 1 do
+		for j = 0 to Array.length r.(0) - 1 do
+			match r.(i).(j) with
+			|Voiture _ -> Printf.printf "#"
+			|_ -> Printf.printf "."
+		done;
+		print_newline();
+	done
 
 let l = 
 	(let l = make_road 9 5 in
 	l.(2).(0) <- Voiture (5,99);
-	l.(2).(2) <- Voiture (5,99);
+	l.(2).(2) <- Voiture (0,99);
+	l.(1).(2) <- Voiture(0,99);
+	l.(0).(2) <- Voiture(0,99);
+	l.(3).(2) <- Voiture(0,99);
+	l.(4).(2) <- Voiture(0,99);
 	l)
 (*
 let print_road l = 
