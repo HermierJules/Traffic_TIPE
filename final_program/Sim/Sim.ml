@@ -215,6 +215,18 @@ let simulate_full g gr =
 let make_road n l = 
     Array.make_matrix l n Empty
 
+let make_road_graph g =
+    let road_graph = Hashtbl.create 50 in
+    Array.iteri (fun x l -> 
+        List.iter 
+        (fun (y,w,lane) ->
+            let n = (int_of_float w) + 1 in
+            Hashtbl.add road_graph (x,y) ((make_road n lane), []))
+        l)
+    g;
+    road_graph
+
+
 let find_single_car g gr =
 	for i = 0 to Array.length g - 1 do
 		List.iter (fun (y,_,_) -> 
@@ -235,6 +247,9 @@ let draw_road r =
 		done;
 		print_newline();
 	done
+
+let get_road gr x y =
+	let r, _ = Hashtbl.find gr (x,y) in r
 
 let l = 
 	(let l = make_road 9 5 in
