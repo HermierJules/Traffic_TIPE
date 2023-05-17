@@ -172,6 +172,20 @@ let put_char gr v id =
 	done;
 	not (!check)
 
+let make_road n l = 
+    Array.make_matrix l n Empty
+
+let make_road_graph g =
+    let road_graph = Hashtbl.create 50 in
+    Array.iteri (fun x l -> 
+        List.iter 
+        (fun (y,w,lane) ->
+            let n = (int_of_float w) + 1 in
+            Hashtbl.add road_graph (x,y) ((make_road n lane), []))
+        l)
+    g;
+    road_graph
+
 let redistribuate_flux g gr =
 	let rec aux l i = 
 		match l with
@@ -186,7 +200,7 @@ let redistribuate_flux g gr =
 	for i = 0 to Array.length g - 1 do
 		List.iter (fun (d,_,_) -> 
 			let (r,l) = Hashtbl.find gr (i,d) in
-			let new_l = aux l i
+			let new_l = aux l d
 			in Hashtbl.replace gr (i,d) (r,new_l))
 		g.(i)
 	done
@@ -209,21 +223,8 @@ let simulate_full g gr =
 			let buf = simulate r b in
 			Hashtbl.replace gr (i,y) (r,buf))
 		g.(i);
-	done
-
-let make_road n l = 
-    Array.make_matrix l n Empty
-
-let make_road_graph g =
-    let road_graph = Hashtbl.create 50 in
-    Array.iteri (fun x l -> 
-        List.iter 
-        (fun (y,w,lane) ->
-            let n = (int_of_float w) + 1 in
-            Hashtbl.add road_graph (x,y) ((make_road n lane), []))
-        l)
-    g;
-    road_graph
+	done;
+	redistribuate_flux g gr 
 
 
 let find_single_car g gr =
