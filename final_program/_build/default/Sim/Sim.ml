@@ -206,6 +206,46 @@ let redistribuate_flux g gr =
 	done
 
 
+let get_road gr x y =
+	let r, _ = Hashtbl.find gr (x,y) in r
+
+let get_density g gr =
+	let n = ref 0 in
+	let nb = ref 0 in
+	for x = 0 to Array.length g - 1 do
+		List.iter (fun (y,_,_) ->
+			let r = get_road gr x y in
+			Array.iter (fun t ->
+				Array.iter(fun v ->
+					match v with
+					|Voiture _ -> incr n; incr nb
+					|_ -> incr n) t) r) g.(x)
+	done;
+	float_of_int !nb /. float_of_int !n
+
+let get_road_density gr x y =
+	let r = get_road gr x y in
+	let nb = ref 0 in
+	let n = (Array.length r) * (Array.length r.(0)) in
+	Array.iter (fun t -> 
+		Array.iter (fun v -> 
+			match v with
+			|Voiture _ -> incr nb 
+			|_ -> ()) t) r;
+	float_of_int !nb /. float_of_int n
+
+let update_density dr d g gr =
+	for x = 0 to Array.length gr - 1 do
+		let (y,_,_) = g.(x) in
+		let l = Hashtbl.find dr (x,y) in
+		let den = get_road_density gr x y in
+		Hashtbl.replace dr (x,y) (den::l)
+	done;
+	let comp_den = get_density g gr in
+	d:=comp_den::!d
+		
+
+
 let simulate road buf =
 	(* Definitions*)
 	let vmax = 5 in
@@ -216,7 +256,7 @@ let simulate road buf =
 	let buf = mvt road buf in
 	buf
 
-let simulate_full g gr = 
+let simulate_full g gr dr d = 
 	for i = 0 to Array.length g - 1 do
 		List.iter (fun (y,_,_) -> 
 			let (r,b) = Hashtbl.find gr (i,y) in
@@ -224,7 +264,8 @@ let simulate_full g gr =
 			Hashtbl.replace gr (i,y) (r,buf))
 		g.(i);
 	done;
-	redistribuate_flux g gr 
+	redistribuate_flux g gr;
+	update_density dr d g gr
 
 
 let find_single_car g gr =
@@ -248,8 +289,7 @@ let draw_road r =
 		print_newline();
 	done
 
-let get_road gr x y =
-	let r, _ = Hashtbl.find gr (x,y) in r
+
 
 let l = 
 	(let l = make_road 9 5 in
