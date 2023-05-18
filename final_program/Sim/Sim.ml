@@ -234,12 +234,12 @@ let get_road_density gr x y =
 			|_ -> ()) t) r;
 	float_of_int !nb /. float_of_int n
 
-let update_density dr (d : float list) g gr =
-	for x = 0 to Array.length gr - 1 do
-		let (y,_,_) = g.(x) in
+let update_density dr d g gr =
+	for x = 0 to Array.length g - 1 do
+		List.iter (fun (y,_,_) ->
 		let l = Hashtbl.find dr (x,y) in
-		let den = get_road_density gr x y in
-		Hashtbl.replace dr (x,y) (den::l)
+		let den = (get_road_density gr x y) in
+		Hashtbl.replace dr (x,y) (den::l)) g.(x)
 	done;
 	let comp_den = get_density g gr in
 	d:=comp_den::!d
