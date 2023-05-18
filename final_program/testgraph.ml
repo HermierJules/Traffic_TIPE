@@ -5,6 +5,10 @@ let g, c = make_weighted_graph edges
 
 let gr = make_road_graph g
 
+let dr = make_density_graph g
+
+let d = ref [] 
+
 let _ =
     let r, _ = Hashtbl.find gr (0,1) in
     r.(0).(0) <- Voiture (5,6);

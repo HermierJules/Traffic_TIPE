@@ -12,6 +12,8 @@ let road_copy (r : road) : road=
 	done;
 	l
 
+let get_road gr x y =
+	let r, _ = Hashtbl.find gr (x,y) in r
 let check_safety r lane i =
 	if i = 0 then true else begin
 	let c =	ref 1 in
@@ -102,6 +104,17 @@ let randomizer l p =
 			|Voiture (a,d) -> if a > 0 && Random.int 100 < p then l.(lane).(i) <- Voiture ((a-1),d)
 	done;
 done 
+
+
+let find_entry_road g gr =
+	let l = ref [] in
+	for x = 0 to Array.length g - 1 do
+		if List.length g.(x) = 1 then 
+			match g.(x) with
+			|(y,_,_)::_ -> l:= (get_road gr x y)::!l
+			|_ -> failwith "???"
+	done;
+	!l
 
 let mvt r buf= 
     let l = road_copy r in
@@ -206,8 +219,6 @@ let redistribuate_flux g gr =
 	done
 
 
-let get_road gr x y =
-	let r, _ = Hashtbl.find gr (x,y) in r
 
 let get_density g gr =
 	let n = ref 0 in
@@ -223,6 +234,17 @@ let get_density g gr =
 	done;
 	float_of_int !nb /. float_of_int !n
 
+let make_density_graph g = 
+    let road_graph = Hashtbl.create 50 in
+    Array.iteri (fun x l -> 
+        List.iter 
+        (fun (y,_,_) ->
+            Hashtbl.add road_graph (x,y) [])
+        l)
+    g;
+    road_graph
+	
+
 let get_road_density gr x y =
 	let r = get_road gr x y in
 	let nb = ref 0 in
@@ -235,11 +257,15 @@ let get_road_density gr x y =
 	float_of_int !nb /. float_of_int n
 
 let update_density dr d g gr =
+	(*
+	 dr: density hashtbl
+	 d: average density list
+	 *)
 	for x = 0 to Array.length g - 1 do
 		List.iter (fun (y,_,_) ->
 		let l = Hashtbl.find dr (x,y) in
 		let den = (get_road_density gr x y) in
-		Hashtbl.replace dr (x,y) (den::l)) g.(x)
+		Hashtbl.add dr (x,y) (den::l)) g.(x)
 	done;
 	let comp_den = get_density g gr in
 	d:=comp_den::!d
@@ -290,7 +316,6 @@ let draw_road r =
 	done
 
 
-
 let l = 
 	(let l = make_road 9 5 in
 	l.(2).(0) <- Voiture (5,99);
@@ -300,7 +325,3 @@ let l =
 	l.(3).(2) <- Voiture(0,99);
 	l.(4).(2) <- Voiture(0,99);
 	l)
-(*
-let print_road l = 
-	for i = 0 to Array.length l do
-		for i = 0 to Array.length l.(0) do*)
