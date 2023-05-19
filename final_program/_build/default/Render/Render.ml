@@ -26,7 +26,7 @@ let repulsive_force g i j =
 let attractive_force g i j =
     let const = 1. in
     let d = distance g i j in
-    (d ** 2.) /. const
+    d /. const
 
 let magnitude (x,y) =
     sqrt (x ** 2. +. y ** 2.)
