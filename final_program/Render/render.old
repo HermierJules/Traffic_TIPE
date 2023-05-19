@@ -1,0 +1,115 @@
+type coord = int * int
+type graph_visual = int * int array
+let c = 1.
+let k = 1.
+let t= 0.9
+
+let d i j = abs_float (i -. j)
+let fr i j =  (-1.) *. c *. (k ** 2.) /. (d i j)
+let fa i j = ((d i j) ** 2.) /. k
+
+let f g gr n = 
+    let xi, yi = g.(n) in
+    let frx = ref 0. in
+    let fry = ref 0. in
+    let fax = ref 0. in
+    let fay = ref 0. in
+    for i = 0 to Array.length g - 1 do
+        if i <> n then begin
+        let xj, yj = g.(i) in
+        frx:= (fr xi xj) *. (xj -. xi) +. !frx;
+        fry:= (fr yi yj) *. (yj -. yi) +. !fry;
+        end;
+    done;
+    List.iter (fun j -> 
+        let xj, yj = g.(j) in
+        fax:= (fa xi xj) *. (xj -. xi) +. !fax;
+        fay:= (fa yi yj) *. (yj -. yi) +. !fay;
+    ) gr.(n);
+    (!frx +. !fax), (!fay +. !fry) 
+        
+let energy g gr =
+    let sum = ref 0. in
+    for i = 0 to Array.length g - 1 do
+        let nx, ny = f g gr i in
+        sum:= !sum +. ( nx *. nx) +. (ny *. ny)
+    done;
+    !sum
+
+
+let compare g1 g2 =
+    let sum = ref 0. in
+    for i = 0 to Array.length g1 - 1 do
+        let x1, y1 = g1.(i) in
+        let x2, y2 = g2.(i) in
+        sum:= !sum +. x1 *. x1 -. x2 *. x2 +. y1 *. y1 -. y2 *. y2;
+    done;
+    sqrt !sum
+
+
+let update_step step en en0 =
+    if en < en0 then step /. t
+    else t *. step
+
+
+let g = [|(50.,50.);(40.,30.);(600.,300.);(900.,100.)|]
+let gr = [|[1;2];[3];[3];[0]|]
+
+let forcedirected g gr tol = 
+    let converged = ref false in
+    let stop = ref 0 in
+    let step = ref 1. in
+    let energy = ref max_float in
+    while (not !converged && !stop < 500) do
+        incr stop;
+        let g0 = Array.copy g in
+        let en0 = !energy in
+        energy:= 0.;
+        for i = 0 to Array.length g - 1 do
+            let nx, ny = f g gr i in
+            let xi, yi = g.(i) in
+            g.(i) <- ((xi +. !step *. (nx /. (abs_float nx))), (yi +. !step *. (ny /. (abs_float ny))));
+            energy:= !energy +. nx *. nx +. ny *. ny;
+        done;
+        step:= update_step !step !energy en0;
+        if ( compare g g0 < k *. tol) then converged:= true
+    done
+
+
+
+
+let draw_graph g gr =
+    let open Raylib  in
+    let rec draw_edges l i = 
+        match l with
+        |j::q -> let x1, y1 = g.(i) in
+                let x2, y2 = g.(j) in
+                draw_line x1 y1 x2 y2 Color.red;
+                draw_edges q i
+        |[] -> ()
+    in
+    for i = 0 to Array.length g - 1 do
+        draw_edges gr.(i) i
+    done;
+    for i = 0 to Array.length g - 1 do
+        let x,y = g.(i) in
+        draw_circle x y 2. Color.gold
+    done
+
+
+let setup () =
+  Raylib.init_window 1280 720 "raylib [core] example - basic window";
+  Raylib.set_target_fps 60
+
+let rec loop () =
+  if Raylib.window_should_close () then Raylib.close_window ()
+  else
+    let open Raylib in
+    begin_drawing ();
+    clear_background Color.raywhite;
+    end_drawing ();
+    loop ()
+(*
+let () = 
+    setup ();
+    loop();*)

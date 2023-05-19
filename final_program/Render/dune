@@ -1,0 +1,7 @@
+(library
+  (name Render)
+  (libraries csv raylib))
+
+(env
+  (dev
+    (flags (:standard -warn-error -A))))
