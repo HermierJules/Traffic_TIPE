@@ -111,10 +111,27 @@ let find_entry_road g gr =
 	for x = 0 to Array.length g - 1 do
 		if List.length g.(x) = 1 then 
 			match g.(x) with
-			|(y,_,_)::_ -> l:= (get_road gr x y)::!l
+			|(y,_,_)::_ -> l:= ((x,y),get_road gr x y)::!l
 			|_ -> failwith "???"
 	done;
 	!l
+
+let find_exit_road g =
+	let l = ref [] in
+	for i = 0 to Array.length g - 1 do
+		let n = ref 0 in
+		for j = 0 to Array.length g - 1 do
+		List.iter (fun (y,_,_) -> 
+			if y = i then 
+
+				incr n) g.(j)
+		done;
+		if !n = 1 then
+		l:= i::!l 
+	done;
+Array.of_list	!l
+
+
 
 let mvt r buf= 
     let l = road_copy r in
@@ -270,6 +287,46 @@ let update_density dr d g gr =
 	let comp_den = get_density g gr in
 	d:=comp_den::!d
 		
+
+let get_exits g i exit =
+	let l = ref [] in
+	let _, prev = dijkstra g i in
+	for j = 0 to Array.length exit - 1 do
+		if prev.(exit.(j)) <> (-1) then 
+			l:=j::!l
+	done;
+	(List.length !l, Array.of_list !l)
+
+
+let populate entry exit vinit = 
+	let rec aux l = 
+		match l with
+		|[] -> ()
+		|(id,r)::q ->
+		for i = 0 to Array.length r - 1 do
+			if Random.int 2 = 1 then
+				if r.(i).(0) = Empty then
+					begin
+					let nexit, exits = Hashtbl.find exit id in
+					let dest = Random.int nexit in
+					r.(i).(0) <- Voiture (vinit, exits.(dest))
+					end
+		done; aux q
+	in
+	aux entry
+	
+	
+let get_entry_exit g gr =
+	let l = find_entry_road g gr in
+	let c = Hashtbl.create 50 in
+	let exit_list = find_exit_road g in
+	let rec aux l = 
+		match l with
+		|((x,y),_)::q -> Hashtbl.add c (x,y) (get_exits g y exit_list); aux q
+		|[] -> ()
+	in
+	aux l;
+	l,c
 
 
 let simulate road buf =
