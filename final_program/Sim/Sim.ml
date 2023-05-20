@@ -343,7 +343,8 @@ let simulate road buf =
 	let buf = mvt road buf in
 	buf
 
-let simulate_full g gr dr d = 
+let simulate_full g gr dr d entry exit vinit =
+	populate entry exit vinit;
 	for i = 0 to Array.length g - 1 do
 		List.iter (fun (y,_,_) -> 
 			let (r,b) = Hashtbl.find gr (i,y) in

@@ -1,6 +1,6 @@
 (library
   (name Render)
-  (libraries csv raylib))
+  (libraries csv raylib Graphimport))
 
 (env
   (dev

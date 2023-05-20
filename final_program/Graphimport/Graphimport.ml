@@ -42,6 +42,24 @@ let make_weighted_graph edges : weighted_graph * (string, int) Hashtbl.t =
     done;
     e,cache
 
+
+let get_edge_cache edges c =
+    (*returns cache where Hashtbl.find cache (x,y) will give the (id, forward: bool) associated with the (x,y) edge*)
+    let cache = Hashtbl.create 50 in
+    for i = 1 to Array.length edges - 1 do
+        let x = Hashtbl.find_opt c edges.(i).(1) in
+        let y = Hashtbl.find_opt c edges.(i).(2) in
+        match x,y with
+        |Some x, Some y -> if int_of_string edges.(i).(5) > 0 
+        then  Hashtbl.add cache (x,y) (edges.(i).(0),true);
+        if int_of_string edges.(i).(6) > 0 then 
+            Hashtbl.add cache (y,x) (edges.(i).(0), false)
+        |_ -> ()
+    done;
+    cache
+
+
+
 let find_biggest_node g = 
     let m = ref 0 in
     let mn = ref (-1) in
