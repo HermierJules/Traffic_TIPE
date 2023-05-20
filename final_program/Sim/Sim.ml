@@ -20,11 +20,13 @@ let check_safety r lane i =
 	let check = ref true in
 	let okay = ref true in
 	while !check  do
+		if i - !c >= 0 then 
 		match r.(lane).(i - !c) with
 		|Empty -> incr c
 		|Block -> incr c
 		|Voiture (v,_) -> if v > !c then (check:=false; okay:=false)
 					else check:=false
+		else check:=false
 	done; 
 	!okay end
 
@@ -188,6 +190,7 @@ let build_path prev start finish =
 let next_node g i d =
 	if i = d then None else begin
 	let _, prev = dijkstra g i in
+	if prev.(d) = -1 then None else
 	let p = build_path prev i d in
 	let p = List.tl p in
 	if p = [] then None else Some (List.hd p) 
