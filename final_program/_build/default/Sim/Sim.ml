@@ -59,6 +59,7 @@ let new_acc r i lane =
 	end
 		else if lane = 0 then begin
 			let m = collision r i v lane in
+			if Array.length r = 1 then (lane,m) else
 			let m' = collision r i v (lane + 1) in 
 			if m' > m && check_safety r (lane + 1) i then (lane+1,m') else (lane, m) end
 		else begin
@@ -322,7 +323,7 @@ let get_entry_exit g gr =
 	let exit_list = find_exit_road g in
 	let rec aux l = 
 		match l with
-		|((x,y),r)::q -> Hashtbl.add c (x,y) (get_exits g y exit_list); aux q
+		|((x,y),_)::q -> Hashtbl.add c (x,y) (get_exits g y exit_list); aux q
 		|[] -> ()
 	in
 	aux l;

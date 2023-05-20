@@ -9,6 +9,8 @@ let dr = make_density_graph g
 
 let d = ref [] 
 
+let entry, exit = get_entry_exit g gr
+
 let _ =
     let r, _ = Hashtbl.find gr (0,1) in
     r.(0).(0) <- Voiture (5,6);
