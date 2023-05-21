@@ -1,6 +1,6 @@
 (executable
  (name main)
-(libraries unix Graphimport Sim)
+(libraries unix Graphimport Sim Render)
  )
 (env
  (dev
