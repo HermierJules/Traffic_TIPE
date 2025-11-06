@@ -1,8 +1,6 @@
 # Traffic_TIPE
-Simple traffic representations
+Simple traffic prediction using the Nagel and Schreckenber model on a directed graph.
+Maps are imported from openstreetmaps extracts and converted from osm to csv using https://github.com/rust-transit/osm4routing2. 
 
-1) NASCH model
-cellular automaton flow traffic model, use the c key to reduce the speed of the simulation and b to increase it
+The completed project code is found in final program, other folder contains other algorithm used for presentation.
 
-2) VDR model
-model based on the NASCH model but with an added density factor affecting the random element
