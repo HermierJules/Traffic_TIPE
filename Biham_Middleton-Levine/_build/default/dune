@@ -1,3 +1,0 @@
-(executable
-    (name biham)
-    (libraries raylib unix))

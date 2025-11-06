@@ -1,3 +1,0 @@
-(executable
-    (name ca)
-    (libraries graphics unix))

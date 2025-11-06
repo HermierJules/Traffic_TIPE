@@ -1,6 +1,0 @@
-(** @canonical Dune__exe.Biham *)
-module Biham = Dune__exe__Biham
-
-
-(** @canonical Dune__exe.Truc *)
-module Truc = Dune__exe__Truc

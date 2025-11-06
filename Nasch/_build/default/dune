@@ -1,3 +1,0 @@
-(executable
-    (name nasch)
-    (libraries curses graphics raylib unix))

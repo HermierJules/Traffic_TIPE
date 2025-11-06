@@ -1,5 +1,0 @@
-(executable
-    (name biham)
-    (libraries findlib uucd unix sfml.all)
-    (flags(:standard -cc=g++ -warn-error -A)
-))
